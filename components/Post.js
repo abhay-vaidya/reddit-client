@@ -4,7 +4,7 @@ import ImageModal from "./ImageModal";
 
 import Colors from "../constants/Colors";
 
-export default class Post extends React.Component {
+export default class Post extends React.PureComponent {
   state = {
     modalVisible: false
   };
