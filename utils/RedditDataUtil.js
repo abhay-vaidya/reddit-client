@@ -1,5 +1,3 @@
-const NO_THUMBNAIL_VALUES = ["default", "self"];
-
 export function convertRawPosts(posts) {
   if (!posts.data) {
     return posts;
@@ -25,9 +23,10 @@ export function convertRawPosts(posts) {
       aspectRatio = width / height;
     }
 
-    const newThumbnail = NO_THUMBNAIL_VALUES.includes(thumbnail)
-      ? undefined
-      : thumbnail;
+    const newThumbnail =
+      thumbnail.match(/^(default|self|spoiler)$/) !== null
+        ? undefined
+        : thumbnail;
 
     const isImage = url.match(/(.png|.jpg|.jpeg)/) !== null;
 

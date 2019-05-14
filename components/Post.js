@@ -14,17 +14,17 @@ export default class Post extends React.Component {
   };
 
   _getThumbnail = () => {
-    const { thumbnail, isImage, url } = this.props;
+    const { thumbnail, isImage } = this.props;
     const defaultThumb = <View style={styles.defaultThumb} />;
 
-    if (!thumbnail) {
+    if (thumbnail === undefined) {
       return defaultThumb;
     }
 
     const image = (
       <Image
         source={{
-          uri: url
+          uri: thumbnail
         }}
         style={styles.thumbnail}
       />
