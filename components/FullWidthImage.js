@@ -3,17 +3,27 @@ import React, { Component } from "react";
 import { Image, View } from "react-native";
 
 export default class FullWidthImage extends Component {
-  constructor() {
-    super();
+  _isMounted = false;
 
-    this.state = {
-      width: 0,
-      height: 0
-    };
+  state = {
+    width: 0,
+    height: 0
+  };
+
+  componentDidMount() {
+    this._isMounted = true;
   }
 
-  _onLayout(event) {
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  _onLayout = event => {
     const containerWidth = event.nativeEvent.layout.width;
+
+    if (!this._isMounted) {
+      return;
+    }
 
     if (this.props.ratio) {
       this.setState({
@@ -35,11 +45,11 @@ export default class FullWidthImage extends Component {
         });
       });
     }
-  }
+  };
 
   render() {
     return (
-      <View onLayout={this._onLayout.bind(this)}>
+      <View onLayout={this._onLayout}>
         <Image
           source={this.props.source}
           style={{

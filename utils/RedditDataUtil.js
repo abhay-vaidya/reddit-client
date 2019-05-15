@@ -21,15 +21,6 @@ export function convertRawPosts(posts) {
 
     const postType = isImage ? "pic" : is_self ? "self" : "link";
 
-    // let postType;
-    // switch (thumbnail) {
-    //   case ("default", "self", "spoiler"):
-    //     postType = "text";
-    //     break;
-    //   default:
-    //     postType = isImage ? "pic" : "link";
-    // }
-
     const newThumbnail =
       thumbnail.match(/^(default|self|spoiler)$/) !== null
         ? undefined

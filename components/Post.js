@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Icon } from "react-native-elements";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Icon, Image } from "react-native-elements";
 import { withNavigation } from "react-navigation";
 import ImageModal from "./ImageModal";
 
