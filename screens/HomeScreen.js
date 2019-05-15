@@ -4,7 +4,7 @@ import { SearchBar } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
 import { convertRawPosts } from "../utils/RedditDataUtil";
-import { getSubredditPosts } from "../redux/Subreddit";
+import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
 
 class HomeScreen extends React.Component {
   state = {
@@ -20,6 +20,14 @@ class HomeScreen extends React.Component {
   getPosts = () => {
     const { subreddit, sort } = this.state;
     this.props.getSubredditPosts(subreddit, sort);
+  };
+
+  getNextPosts = () => {
+    const { subreddit, sort } = this.state;
+    const { posts } = this.props;
+
+    const name = posts[posts.length - 1].name;
+    this.props.getNextSubredditPosts(subreddit, sort, name);
   };
 
   componentDidMount() {
@@ -66,6 +74,7 @@ class HomeScreen extends React.Component {
           loading={loading}
           handleRefresh={this._handleRefresh}
           searchComponent={searchComponent}
+          handleEndReached={this.getNextPosts}
         />
       </View>
     );
@@ -91,6 +100,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getSubredditPosts: (subreddit, sort) => {
       dispatch(getSubredditPosts(subreddit, sort));
+    },
+    getNextSubredditPosts: (subreddit, sort, lastPostName) => {
+      dispatch(getNextSubredditPosts(subreddit, sort, lastPostName));
     }
   };
 };

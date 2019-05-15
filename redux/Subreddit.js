@@ -15,7 +15,11 @@ export default function reducer(
     case GET_SUBREDDIT_POSTS:
       return { ...state, loading: true };
     case GET_SUBREDDIT_POSTS_SUCCESS:
-      return { ...state, loading: false, posts: action.payload.data };
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, ...action.payload.data.data.children]
+      };
     case GET_SUBREDDIT_POSTS_FAIL:
       return {
         ...state,
@@ -34,6 +38,17 @@ export function getSubredditPosts(subreddit, sort) {
     payload: {
       request: {
         url: `/r/${subreddit}/${sort}.json`
+      }
+    }
+  };
+}
+
+export function getNextSubredditPosts(subreddit, sort, lastPostName) {
+  return {
+    type: GET_SUBREDDIT_POSTS,
+    payload: {
+      request: {
+        url: `/r/${subreddit}/${sort}.json?after=${lastPostName}`
       }
     }
   };

@@ -1,8 +1,8 @@
 export function convertRawPosts(posts) {
-  if (!posts.data) {
+  if (!posts) {
     return posts;
   }
-  return posts.data.children.map(post => {
+  return posts.map(post => {
     const { data } = post;
     const {
       title,
@@ -14,7 +14,8 @@ export function convertRawPosts(posts) {
       url,
       permalink,
       is_self,
-      subreddit
+      subreddit,
+      name
     } = data;
 
     const isImage = url.match(/(.png|.jpg|.jpeg)/) !== null;
@@ -36,7 +37,8 @@ export function convertRawPosts(posts) {
       url,
       permalink,
       postType,
-      subreddit
+      subreddit,
+      name
     };
     return newPost;
   });

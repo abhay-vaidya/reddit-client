@@ -41,7 +41,6 @@ class Post extends React.PureComponent {
     /* If the type is an image, toggle the modal when it's pressed, otherwise
        navigate to the webview screen
     */
-
     const imageThumb = (
       <Image
         source={{

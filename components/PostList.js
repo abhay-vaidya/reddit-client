@@ -2,10 +2,17 @@ import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import Post from "./Post";
 import Colors from "../constants/Colors";
+import { debounce } from "lodash";
 
-const _keyExtractor = item => item.id;
+const _keyExtractor = (item, index) => item.id + index;
 
-export default ({ posts, loading, handleRefresh, searchComponent }) => {
+export default ({
+  posts,
+  loading,
+  handleRefresh,
+  searchComponent,
+  handleEndReached
+}) => {
   return (
     <View
       style={styles.container}
@@ -18,6 +25,8 @@ export default ({ posts, loading, handleRefresh, searchComponent }) => {
         keyExtractor={_keyExtractor}
         renderItem={({ item }) => <Post {...item} />}
         ListHeaderComponent={searchComponent}
+        onEndReached={debounce(handleEndReached, 500)}
+        onEndReachedThreshold={0.5}
       />
     </View>
   );
