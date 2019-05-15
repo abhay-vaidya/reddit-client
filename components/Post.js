@@ -62,7 +62,7 @@ class Post extends React.PureComponent {
   };
 
   render() {
-    const { title, author, score, numComments, url } = this.props;
+    const { title, author, score, numComments, url, subreddit } = this.props;
     const { modalVisible } = this.state;
     const thumbnailMarkup = this._getThumbnail();
 
@@ -81,8 +81,9 @@ class Post extends React.PureComponent {
             <Text style={styles.postAuthor}>{author}</Text>
           </View>
           <View style={styles.secondaryInfoContainer}>
-            <Text style={styles.postUpvotes}>↑ {score}</Text>
-            <Text style={styles.postComments}>{numComments} Comments</Text>
+            <Text style={styles.postInfo}>{subreddit}</Text>
+            <Text style={styles.postInfo}>↑ {score}</Text>
+            <Text style={styles.postInfo}>{numComments} Comments</Text>
           </View>
         </View>
       </View>
@@ -133,8 +134,9 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     fontSize: 12
   },
-  postUpvotes: {
-    marginRight: 10
+  postInfo: {
+    marginRight: 10,
+    fontSize: 12
   },
   thumbnail: {
     width: 60,
