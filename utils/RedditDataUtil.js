@@ -12,23 +12,28 @@ export function convertRawPosts(posts) {
       id,
       thumbnail,
       url,
-      preview,
-      permalink
+      permalink,
+      is_self,
+      subreddit
     } = data;
 
-    let aspectRatio;
+    const isImage = url.match(/(.png|.jpg|.jpeg)/) !== null;
 
-    if (preview && preview.images && preview.images[0].source) {
-      const { width, height } = preview.images[0].source;
-      aspectRatio = width / height;
-    }
+    const postType = isImage ? "pic" : is_self ? "self" : "link";
+
+    // let postType;
+    // switch (thumbnail) {
+    //   case ("default", "self", "spoiler"):
+    //     postType = "text";
+    //     break;
+    //   default:
+    //     postType = isImage ? "pic" : "link";
+    // }
 
     const newThumbnail =
       thumbnail.match(/^(default|self|spoiler)$/) !== null
         ? undefined
         : thumbnail;
-
-    const isImage = url.match(/(.png|.jpg|.jpeg)/) !== null;
 
     const newPost = {
       title,
@@ -37,10 +42,10 @@ export function convertRawPosts(posts) {
       numComments: num_comments,
       id,
       thumbnail: newThumbnail,
-      isImage,
       url,
-      aspectRatio,
-      permalink
+      permalink,
+      postType,
+      subreddit
     };
     return newPost;
   });

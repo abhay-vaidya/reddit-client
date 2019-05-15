@@ -40,25 +40,32 @@ class HomeScreen extends React.Component {
     this.setState({ subreddit: searchTerm });
   };
 
+  _getSearchComponent = () => {
+    return (
+      <SearchBar
+        onSubmitEditing={this._handleSearch}
+        onChangeText={this._updateSearch}
+        value={this.state.search}
+        platform="ios"
+        placeholder="Search for a subreddit..."
+        containerStyle={{ backgroundColor: "transparent" }}
+      />
+    );
+  };
+
   render() {
     const { posts, loading } = this.props;
-    const { search, modalVisible, currentImage } = this.state;
+    const { modalVisible } = this.state;
+    const searchComponent = this._getSearchComponent();
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-
-        <SearchBar
-          onSubmitEditing={this._handleSearch}
-          onChangeText={this._updateSearch}
-          value={search}
-          platform="ios"
-          placeholder="Search for a subreddit..."
-        />
         <PostList
           modalVisible={modalVisible}
           posts={posts}
           loading={loading}
           handleRefresh={this._handleRefresh}
+          searchComponent={searchComponent}
         />
       </View>
     );

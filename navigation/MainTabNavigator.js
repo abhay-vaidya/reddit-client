@@ -1,17 +1,16 @@
 import React from "react";
 import { Platform } from "react-native";
 import Colors from "../constants/Colors";
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
+import ContentScreen from "../screens/WebScreen";
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
+    LinkContent: ContentScreen
   },
   {
     defaultNavigationOptions: {
@@ -36,6 +35,4 @@ HomeStack.navigationOptions = {
   )
 };
 
-export default createBottomTabNavigator({
-  HomeStack
-});
+export default HomeStack;

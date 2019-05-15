@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Icon } from "react-native-elements";
+import { withNavigation } from "react-navigation";
 import ImageModal from "./ImageModal";
 
 import Colors from "../constants/Colors";
 
-export default class Post extends React.PureComponent {
+class Post extends React.PureComponent {
   state = {
     modalVisible: false
   };
@@ -14,14 +16,33 @@ export default class Post extends React.PureComponent {
   };
 
   _getThumbnail = () => {
-    const { thumbnail, isImage } = this.props;
-    const defaultThumb = <View style={styles.defaultThumb} />;
+    const { thumbnail, postType, navigation, url } = this.props;
 
-    if (thumbnail === undefined) {
+    const navigateToContent = () => navigation.navigate("LinkContent", { url });
+
+    /* If there is no thumbnail return a default one with icon
+       depending on if the type is a link or self post
+    */
+    const defaultThumb = (
+      <TouchableOpacity onPress={navigateToContent}>
+        <View style={styles.defaultThumb}>
+          <Icon
+            name={postType === "self" ? "subject" : "link"}
+            color={Colors.grey}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+
+    if (!thumbnail) {
       return defaultThumb;
     }
 
-    const image = (
+    /* If the type is an image, toggle the modal when it's pressed, otherwise
+       navigate to the webview screen
+    */
+
+    const imageThumb = (
       <Image
         source={{
           uri: thumbnail
@@ -30,10 +51,13 @@ export default class Post extends React.PureComponent {
       />
     );
 
-    return isImage ? (
-      <TouchableOpacity onPress={this._toggleModal}>{image}</TouchableOpacity>
-    ) : (
-      image
+    const thumbailPressHandler =
+      postType === "pic" ? this._toggleModal : navigateToContent;
+
+    return (
+      <TouchableOpacity onPress={thumbailPressHandler}>
+        {imageThumb}
+      </TouchableOpacity>
     );
   };
 
@@ -65,6 +89,8 @@ export default class Post extends React.PureComponent {
     );
   }
 }
+
+export default withNavigation(Post);
 
 const styles = StyleSheet.create({
   imageModal: {
@@ -121,6 +147,9 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     marginRight: 12,
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: Colors.paleGrey
   }
 });

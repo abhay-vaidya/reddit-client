@@ -5,7 +5,7 @@ import Colors from "../constants/Colors";
 
 const _keyExtractor = item => item.id;
 
-export default ({ posts, loading, handleRefresh }) => {
+export default ({ posts, loading, handleRefresh, searchComponent }) => {
   return (
     <View
       style={styles.container}
@@ -17,6 +17,7 @@ export default ({ posts, loading, handleRefresh }) => {
         onRefresh={handleRefresh}
         keyExtractor={_keyExtractor}
         renderItem={({ item }) => <Post {...item} />}
+        ListHeaderComponent={searchComponent}
       />
     </View>
   );
