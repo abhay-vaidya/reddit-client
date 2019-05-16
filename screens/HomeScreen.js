@@ -4,6 +4,7 @@ import { SearchBar } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
 import { convertRawPosts } from "../utils/RedditDataUtil";
+
 import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
 
 class HomeScreen extends React.Component {
@@ -13,9 +14,13 @@ class HomeScreen extends React.Component {
     search: ""
   };
 
-  static navigationOptions = {
-    title: "Home"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title:
+      typeof navigation.state.params === "undefined" ||
+      typeof navigation.state.params.title === "undefined"
+        ? "find"
+        : navigation.state.params.title
+  });
 
   getPosts = () => {
     const { subreddit, sort } = this.state;
@@ -31,6 +36,7 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.props.navigation.setParams({ title: this.state.subreddit });
     this.getPosts();
   }
 
@@ -46,6 +52,7 @@ class HomeScreen extends React.Component {
     const searchTerm = e.nativeEvent.text.trim();
     this.props.getSubredditPosts(searchTerm, this.state.sort);
     this.setState({ subreddit: searchTerm });
+    this.props.navigation.setParams({ title: this.state.subreddit });
   };
 
   _getSearchComponent = () => {
