@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon, Image } from "react-native-elements";
 import { withNavigation } from "react-navigation";
-import ImageModal from "./ImageModal";
 
 import Colors from "../constants/Colors";
 
@@ -16,7 +15,8 @@ class Post extends React.PureComponent {
       imageModalToggler
     } = this.props;
 
-    const navigateToContent = () => navigation.navigate("LinkContent", { url });
+    const navigateToContent = () =>
+      navigation.navigate("LinkContent", { uri: url });
 
     /* If there is no thumbnail return a default one with icon
        depending on if the type is a link or self post
@@ -58,26 +58,32 @@ class Post extends React.PureComponent {
     );
   };
 
+  navigateToComments = () => {
+    this.props.navigation.navigate("Comments", { props: this.props });
+  };
+
   render() {
-    const { title, author, score, numComments, url, subreddit } = this.props;
+    const { title, author, score, numComments, subreddit } = this.props;
     const thumbnailMarkup = this._getThumbnail();
 
     return (
-      <View style={styles.postContainer}>
-        {thumbnailMarkup}
+      <TouchableOpacity onPress={this.navigateToComments}>
+        <View style={styles.postContainer}>
+          {thumbnailMarkup}
 
-        <View style={styles.postTextContainer}>
-          <View>
-            <Text style={styles.postTitle}>{title}</Text>
-            <Text style={styles.postAuthor}>{author}</Text>
-          </View>
-          <View style={styles.secondaryInfoContainer}>
-            <Text style={styles.postInfo}>{subreddit}</Text>
-            <Text style={styles.postInfo}>↑ {score}</Text>
-            <Text style={styles.postInfo}>{numComments} Comments</Text>
+          <View style={styles.postTextContainer}>
+            <View>
+              <Text style={styles.postTitle}>{title}</Text>
+              <Text style={styles.postAuthor}>{author}</Text>
+            </View>
+            <View style={styles.secondaryInfoContainer}>
+              <Text style={styles.postInfo}>{subreddit}</Text>
+              <Text style={styles.postInfo}>↑ {score}</Text>
+              <Text style={styles.postInfo}>{numComments} Comments</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

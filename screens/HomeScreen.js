@@ -9,7 +9,7 @@ import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
 
 class HomeScreen extends React.Component {
   state = {
-    subreddit: "popular",
+    subreddit: "toronto",
     sort: "best",
     search: ""
   };

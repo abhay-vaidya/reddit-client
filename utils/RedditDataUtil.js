@@ -15,6 +15,7 @@ export function convertRawPosts(posts) {
       permalink,
       is_self,
       subreddit,
+      selftext_html,
       name
     } = data;
 
@@ -38,7 +39,8 @@ export function convertRawPosts(posts) {
       permalink,
       postType,
       subreddit,
-      name
+      name,
+      selftext: selftext_html
     };
     return newPost;
   });

@@ -6,11 +6,13 @@ import { createStackNavigator } from "react-navigation";
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import ContentScreen from "../screens/WebScreen";
+import CommentsScreen from "../screens/CommentsScreen";
 
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    LinkContent: ContentScreen
+    LinkContent: ContentScreen,
+    Comments: CommentsScreen
   },
   {
     defaultNavigationOptions: {
