@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 6
   },
   postAuthor: {
-    color: Colors.grey,
+    color: Colors.secondaryText,
     fontSize: 16,
     marginBottom: 10
   },

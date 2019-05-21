@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, StatusBar, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
@@ -87,7 +87,6 @@ class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <PostList
           modalVisible={modalVisible}
           posts={posts}

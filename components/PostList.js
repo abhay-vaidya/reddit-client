@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   search: {
     height: 40,
     margin: 10,
-    backgroundColor: Colors.paleGrey,
+    backgroundColor: Colors.secondaryBg,
     borderRadius: 5,
     padding: 10
   },

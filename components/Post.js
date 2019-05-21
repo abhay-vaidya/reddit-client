@@ -26,7 +26,7 @@ class Post extends React.PureComponent {
         <View style={styles.defaultThumb}>
           <Icon
             name={postType === "self" ? "subject" : "link"}
-            color={Colors.grey}
+            color={Colors.secondaryText}
           />
         </View>
       </TouchableOpacity>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   postContainer: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: Colors.primaryBg,
     padding: 16,
     margin: 10,
     shadowOpacity: 0.2,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 6
   },
   postAuthor: {
-    color: Colors.grey,
+    color: Colors.secondaryText,
     fontSize: 12,
     marginBottom: 3
   },
@@ -142,6 +142,6 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colors.paleGrey
+    backgroundColor: Colors.secondaryBg
   }
 });

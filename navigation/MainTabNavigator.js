@@ -17,9 +17,9 @@ const HomeStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.headerBackground
+        backgroundColor: Colors.primary
       },
-      headerTintColor: "white",
+      headerTintColor: Colors.accent,
       headerTitleStyle: {
         fontWeight: "bold"
       }
