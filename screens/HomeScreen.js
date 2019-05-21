@@ -1,8 +1,10 @@
 import React from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
+import Loading from "../components/Loading";
+import Colors from "../constants/Colors";
 import { convertRawPosts } from "../utils/RedditDataUtil";
 
 import {
@@ -78,11 +80,7 @@ class HomeScreen extends React.Component {
     const searchComponent = this._getSearchComponent();
 
     if (loading) {
-      return (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator />
-        </View>
-      );
+      return <Loading />;
     }
 
     return (
@@ -103,12 +101,7 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: Colors.primaryBg
   }
 });
 

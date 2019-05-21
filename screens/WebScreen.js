@@ -1,10 +1,17 @@
 import React from "react";
 import { WebView } from "react-native";
+import Loading from "../components/Loading";
+
+const _getLoadingComponent = () => {
+  return <Loading />;
+};
 
 export default ({ navigation }) => {
   return (
     <WebView
-      source={{ uri: navigation.getParam("uri", "https://google.ca") }}
+      startInLoadingState={true}
+      source={{ uri: navigation.state.params.uri }}
+      renderLoading={_getLoadingComponent}
     />
   );
 };
