@@ -53,6 +53,7 @@ class HomeScreen extends React.Component {
     this.props._getSubredditPosts(searchTerm, this.state.sort);
     this.setState({ subreddit: searchTerm }, () => {
       this.props.navigation.setParams({ title: this.state.subreddit });
+      this.setState({ search: "" });
     });
   };
 
