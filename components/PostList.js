@@ -10,7 +10,9 @@ export default class PostList extends React.Component {
   };
 
   toggleModal = url => {
-    this.setState({ imageUrl: url, modalVisible: !this.state.modalVisible });
+    this.setState(prevState => {
+      return { imageUrl: url, modalVisible: !prevState.modalVisible };
+    });
   };
 
   _keyExtractor = (item, index) => item.id + index;
