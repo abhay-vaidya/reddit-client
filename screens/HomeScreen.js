@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { StyleSheet, View, StatusBar, ActivityIndicator } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
@@ -20,7 +20,7 @@ class HomeScreen extends React.Component {
     title:
       typeof navigation.state.params === "undefined" ||
       typeof navigation.state.params.title === "undefined"
-        ? "find"
+        ? "Home"
         : navigation.state.params.title
   });
 
@@ -76,6 +76,15 @@ class HomeScreen extends React.Component {
     const { posts, loading } = this.props;
     const { modalVisible } = this.state;
     const searchComponent = this._getSearchComponent();
+
+    if (loading) {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -96,6 +105,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 
