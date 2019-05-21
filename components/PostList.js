@@ -9,14 +9,14 @@ export default class PostList extends React.Component {
     modalVisible: false
   };
 
-  _toggleModal = url => {
+  toggleModal = url => {
     this.setState({ imageUrl: url, modalVisible: !this.state.modalVisible });
   };
 
   _keyExtractor = (item, index) => item.id + index;
 
-  _renderPost = ({ item }) => (
-    <Post imageModalToggler={this._toggleModal} {...item} />
+  renderPost = ({ item }) => (
+    <Post imageModalToggler={this.toggleModal} {...item} />
   );
   render() {
     const {
@@ -34,7 +34,7 @@ export default class PostList extends React.Component {
       >
         <ImageModal
           modalVisible={modalVisible}
-          toggleModal={this._toggleModal}
+          toggleModal={this.toggleModal}
           url={imageUrl}
         />
         <FlatList
@@ -42,7 +42,7 @@ export default class PostList extends React.Component {
           refreshing={loading}
           onRefresh={handleRefresh}
           keyExtractor={this._keyExtractor}
-          renderItem={this._renderPost}
+          renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
           onEndReached={handleEndReached}
         />
@@ -56,23 +56,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-  contentContainer: {},
   search: {
     height: 40,
     margin: 10,
     backgroundColor: Colors.paleGrey,
     borderRadius: 5,
     padding: 10
-  },
-  imageModal: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "stretch",
-    backgroundColor: "rgba(0,0,0,0.9)"
-  },
-  closeButton: {
-    marginBottom: 20,
-    alignSelf: "flex-end"
   }
 });

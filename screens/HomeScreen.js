@@ -22,9 +22,9 @@ class HomeScreen extends React.Component {
         : navigation.state.params.title
   });
 
-  getPosts = () => {
+  _getPosts = () => {
     const { subreddit, sort } = this.state;
-    this.props.getSubredditPosts(subreddit, sort);
+    this.props._getSubredditPosts(subreddit, sort);
   };
 
   getNextPosts = () => {
@@ -32,25 +32,25 @@ class HomeScreen extends React.Component {
     const { posts } = this.props;
 
     const name = posts[posts.length - 1].name;
-    this.props.getNextSubredditPosts(subreddit, sort, name);
+    this.props._getNextSubredditPosts(subreddit, sort, name);
   };
 
   componentDidMount() {
     this.props.navigation.setParams({ title: this.state.subreddit });
-    this.getPosts();
+    this._getPosts();
   }
 
-  _updateSearch = search => {
+  updateSearch = search => {
     this.setState({ search });
   };
 
-  _handleRefresh = () => {
-    this.getPosts();
+  handleRefresh = () => {
+    this._getPosts();
   };
 
-  _handleSearch = e => {
+  handleSearch = e => {
     const searchTerm = e.nativeEvent.text.trim().toLowerCase();
-    this.props.getSubredditPosts(searchTerm, this.state.sort);
+    this.props._getSubredditPosts(searchTerm, this.state.sort);
     this.setState({ subreddit: searchTerm }, () => {
       this.props.navigation.setParams({ title: this.state.subreddit });
     });
@@ -59,8 +59,8 @@ class HomeScreen extends React.Component {
   _getSearchComponent = () => {
     return (
       <SearchBar
-        onSubmitEditing={this._handleSearch}
-        onChangeText={this._updateSearch}
+        onSubmitEditing={this.handleSearch}
+        onChangeText={this.updateSearch}
         value={this.state.search}
         platform="ios"
         placeholder="Search for a subreddit..."
@@ -80,7 +80,7 @@ class HomeScreen extends React.Component {
           modalVisible={modalVisible}
           posts={posts}
           loading={loading}
-          handleRefresh={this._handleRefresh}
+          handleRefresh={this.handleRefresh}
           searchComponent={searchComponent}
           handleEndReached={this.getNextPosts}
         />
@@ -106,10 +106,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getSubredditPosts: (subreddit, sort) => {
+    _getSubredditPosts: (subreddit, sort) => {
       dispatch(getSubredditPosts(subreddit, sort));
     },
-    getNextSubredditPosts: (subreddit, sort, lastPostName) => {
+    _getNextSubredditPosts: (subreddit, sort, lastPostName) => {
       dispatch(getNextSubredditPosts(subreddit, sort, lastPostName));
     }
   };

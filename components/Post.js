@@ -85,16 +85,6 @@ class Post extends React.PureComponent {
 export default withNavigation(Post);
 
 const styles = StyleSheet.create({
-  imageModal: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.9)"
-  },
-  closeButton: {
-    marginBottom: 20,
-    alignSelf: "flex-end"
-  },
   postContainer: {
     flex: 1,
     flexDirection: "row",
