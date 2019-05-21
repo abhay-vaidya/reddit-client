@@ -69,7 +69,7 @@ export default class PostList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: Colors.primaryBg
   },
   search: {
     height: 40,

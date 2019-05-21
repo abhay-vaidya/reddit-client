@@ -5,6 +5,7 @@ import axios from "axios";
 import axiosMiddleware from "redux-axios-middleware";
 import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "./redux/Subreddit";
+import Colors from "./constants/Colors";
 
 import AppNavigator from "./navigation/AppNavigator";
 
@@ -36,6 +37,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: Colors.primaryBg
   }
 });
