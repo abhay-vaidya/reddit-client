@@ -1,4 +1,4 @@
-# React Native Reddit Client
+# (WIP) React Native Reddit Client
 
 Used as a playground to learn React Native.
 
