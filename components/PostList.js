@@ -1,34 +1,55 @@
 import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import Post from "./Post";
+import ImageModal from "./ImageModal";
 import Colors from "../constants/Colors";
 
-const _keyExtractor = (item, index) => item.id + index;
+export default class PostList extends React.Component {
+  state = {
+    modalVisible: false
+  };
 
-export default ({
-  posts,
-  loading,
-  handleRefresh,
-  searchComponent,
-  handleEndReached
-}) => {
-  return (
-    <View
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-    >
-      <FlatList
-        data={posts}
-        refreshing={loading}
-        onRefresh={handleRefresh}
-        keyExtractor={_keyExtractor}
-        renderItem={({ item }) => <Post {...item} />}
-        ListHeaderComponent={searchComponent}
-        onEndReached={handleEndReached}
-      />
-    </View>
+  _toggleModal = url => {
+    this.setState({ imageUrl: url, modalVisible: !this.state.modalVisible });
+  };
+
+  _keyExtractor = (item, index) => item.id + index;
+
+  _renderPost = ({ item }) => (
+    <Post imageModalToggler={this._toggleModal} {...item} />
   );
-};
+  render() {
+    const {
+      posts,
+      loading,
+      handleRefresh,
+      searchComponent,
+      handleEndReached
+    } = this.props;
+    const { modalVisible, imageUrl } = this.state;
+    return (
+      <View
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <ImageModal
+          modalVisible={modalVisible}
+          toggleModal={this._toggleModal}
+          url={imageUrl}
+        />
+        <FlatList
+          data={posts}
+          refreshing={loading}
+          onRefresh={handleRefresh}
+          keyExtractor={this._keyExtractor}
+          renderItem={this._renderPost}
+          ListHeaderComponent={searchComponent}
+          onEndReached={handleEndReached}
+        />
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

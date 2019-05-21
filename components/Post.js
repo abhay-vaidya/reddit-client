@@ -7,16 +7,14 @@ import ImageModal from "./ImageModal";
 import Colors from "../constants/Colors";
 
 class Post extends React.PureComponent {
-  state = {
-    modalVisible: false
-  };
-
-  _toggleModal = () => {
-    this.setState({ modalVisible: !this.state.modalVisible });
-  };
-
   _getThumbnail = () => {
-    const { thumbnail, postType, navigation, url } = this.props;
+    const {
+      thumbnail,
+      postType,
+      navigation,
+      url,
+      imageModalToggler
+    } = this.props;
 
     const navigateToContent = () => navigation.navigate("LinkContent", { url });
 
@@ -51,7 +49,7 @@ class Post extends React.PureComponent {
     );
 
     const thumbailPressHandler =
-      postType === "pic" ? this._toggleModal : navigateToContent;
+      postType === "pic" ? () => imageModalToggler(url) : navigateToContent;
 
     return (
       <TouchableOpacity onPress={thumbailPressHandler}>
@@ -62,16 +60,10 @@ class Post extends React.PureComponent {
 
   render() {
     const { title, author, score, numComments, url, subreddit } = this.props;
-    const { modalVisible } = this.state;
     const thumbnailMarkup = this._getThumbnail();
 
     return (
       <View style={styles.postContainer}>
-        <ImageModal
-          modalVisible={modalVisible}
-          toggleModal={this._toggleModal}
-          url={url}
-        />
         {thumbnailMarkup}
 
         <View style={styles.postTextContainer}>
