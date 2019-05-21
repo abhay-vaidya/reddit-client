@@ -74,12 +74,14 @@ class Post extends React.PureComponent {
           <View style={styles.postTextContainer}>
             <View>
               <Text style={styles.postTitle}>{title}</Text>
-              <Text style={styles.postAuthor}>{author}</Text>
             </View>
-            <View style={styles.secondaryInfoContainer}>
-              <Text style={styles.postInfo}>{subreddit}</Text>
-              <Text style={styles.postInfo}>↑ {score}</Text>
-              <Text style={styles.postInfo}>{numComments} Comments</Text>
+            <View>
+              <Text style={styles.postAuthor}>{author}</Text>
+              <View style={styles.secondaryInfoContainer}>
+                <Text style={styles.postInfo}>{subreddit}</Text>
+                <Text style={styles.postInfo}>↑ {score}</Text>
+                <Text style={styles.postInfo}>{numComments} Comments</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -119,7 +121,8 @@ const styles = StyleSheet.create({
   },
   postAuthor: {
     color: Colors.grey,
-    fontSize: 12
+    fontSize: 12,
+    marginBottom: 3
   },
   postInfo: {
     marginRight: 10,
