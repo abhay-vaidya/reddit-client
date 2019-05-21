@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text, ScrollView, Dimensions } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import Layout from "../constants/Layout";
 import { Divider } from "react-native-elements";
 import HTML from "react-native-render-html";
 import Colors from "../constants/Colors";
@@ -29,7 +30,7 @@ export default ({ navigation }) => {
             <HTML
               html={decode(selftext)}
               onLinkPress={navigateToContent}
-              imagesMaxWidth={Dimensions.get("window").width}
+              imagesMaxWidth={Layout.window.width}
             />
           )}
           <Divider style={styles.divider} />
