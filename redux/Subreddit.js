@@ -1,4 +1,5 @@
 // Constants
+export const SET_SUBREDDIT = "reddit-client/subreddit/SET";
 export const GET_SUBREDDIT_POSTS = "reddit-client/posts/LOAD";
 export const GET_SUBREDDIT_POSTS_SUCCESS = "reddit-client/posts/LOAD_SUCCESS";
 export const GET_SUBREDDIT_POSTS_FAIL = "reddit-client/posts/LOAD_FAIL";
@@ -12,12 +13,16 @@ export const GET_NEXT_SUBREDDIT_POSTS_FAIL =
 // Reducer
 export default function reducer(
   state = {
+    subreddit: "toronto",
+    sort: "best",
     posts: [],
     loading: false
   },
   action
 ) {
   switch (action.type) {
+    case SET_SUBREDDIT:
+      return { ...state, subreddit: action.subreddit };
     case GET_SUBREDDIT_POSTS:
     case GET_NEXT_SUBREDDIT_POSTS:
       return { ...state, loading: true };
@@ -54,6 +59,13 @@ export function getSubredditPosts(subreddit, sort) {
         url: `/r/${subreddit}/${sort}.json`
       }
     }
+  };
+}
+
+export function setSubreddit(subreddit) {
+  return {
+    type: SET_SUBREDDIT,
+    subreddit
   };
 }
 

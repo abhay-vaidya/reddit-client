@@ -5,12 +5,14 @@ import { connect } from "react-redux";
 import PostList from "../components/PostList";
 import { convertRawPosts } from "../utils/RedditDataUtil";
 
-import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
+import {
+  getSubredditPosts,
+  getNextSubredditPosts,
+  setSubreddit
+} from "../redux/Subreddit";
 
 class HomeScreen extends React.Component {
   state = {
-    subreddit: "toronto",
-    sort: "best",
     search: ""
   };
 
@@ -23,12 +25,12 @@ class HomeScreen extends React.Component {
   });
 
   _getPosts = () => {
-    const { subreddit, sort } = this.state;
+    const { subreddit, sort } = this.props;
     this.props._getSubredditPosts(subreddit, sort);
   };
 
   getNextPosts = () => {
-    const { subreddit, sort } = this.state;
+    const { subreddit, sort } = this.props;
     const { posts } = this.props;
 
     const name = posts[posts.length - 1].name;
@@ -36,7 +38,7 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ title: this.state.subreddit });
+    this.props.navigation.setParams({ title: this.props.subreddit });
     this._getPosts();
   }
 
@@ -50,9 +52,9 @@ class HomeScreen extends React.Component {
 
   handleSearch = e => {
     const searchTerm = e.nativeEvent.text.trim().toLowerCase();
-    this.props._getSubredditPosts(searchTerm, this.state.sort);
-    this.setState({ subreddit: searchTerm }, () => {
-      this.props.navigation.setParams({ title: this.state.subreddit });
+    this.props._setSubreddit(searchTerm);
+    this.props._getSubredditPosts(searchTerm, this.props.sort).then(() => {
+      this.props.navigation.setParams({ title: this.props.subreddit });
       this.setState({ search: "" });
     });
   };
@@ -98,20 +100,26 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+  const { subreddit, sort, loading } = state;
   let newPosts = convertRawPosts(state.posts);
   return {
+    subreddit,
+    sort,
     posts: newPosts,
-    loading: state.loading
+    loading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     _getSubredditPosts: (subreddit, sort) => {
-      dispatch(getSubredditPosts(subreddit, sort));
+      return dispatch(getSubredditPosts(subreddit, sort));
     },
     _getNextSubredditPosts: (subreddit, sort, lastPostName) => {
-      dispatch(getNextSubredditPosts(subreddit, sort, lastPostName));
+      return dispatch(getNextSubredditPosts(subreddit, sort, lastPostName));
+    },
+    _setSubreddit: subreddit => {
+      dispatch(setSubreddit(subreddit));
     }
   };
 };
