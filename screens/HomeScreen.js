@@ -30,11 +30,11 @@ class HomeScreen extends React.Component {
   };
 
   getNextPosts = () => {
-    const { subreddit, sort } = this.props;
+    const { subreddit, sort, loading } = this.props;
     const { posts } = this.props;
-
     const name = posts[posts.length - 1].name;
-    this.props._getNextSubredditPosts(subreddit, sort, name);
+
+    !loading && this.props._getNextSubredditPosts(subreddit, sort, name);
   };
 
   componentDidMount() {

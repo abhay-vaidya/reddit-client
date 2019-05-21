@@ -9,7 +9,7 @@ export default class PostList extends React.Component {
     modalVisible: false
   };
 
-  _keyExtractor = (item, index) => item.id + index;
+  _keyExtractor = item => item.id;
 
   _getEmptyListPlaceholder = () => {
     return (
