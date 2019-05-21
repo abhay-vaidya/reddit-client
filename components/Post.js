@@ -67,7 +67,7 @@ class Post extends React.PureComponent {
     const thumbnailMarkup = this._getThumbnail();
 
     return (
-      <TouchableOpacity onPress={this.navigateToComments}>
+      <TouchableOpacity onPress={this.navigateToComments} activeOpacity={0.5}>
         <View style={styles.postContainer}>
           {thumbnailMarkup}
 

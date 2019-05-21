@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, Text, StyleSheet } from "react-native";
 import Post from "./Post";
 import ImageModal from "./ImageModal";
 import Colors from "../constants/Colors";
@@ -9,17 +9,26 @@ export default class PostList extends React.Component {
     modalVisible: false
   };
 
+  _keyExtractor = (item, index) => item.id + index;
+
+  _getEmptyListPlaceholder = () => {
+    return (
+      <Text style={styles.emptyListText}>
+        {`Hmm... there's nothing here. 🧐\nTry another subreddit!`}
+      </Text>
+    );
+  };
+
   toggleModal = url => {
     this.setState(prevState => {
       return { imageUrl: url, modalVisible: !prevState.modalVisible };
     });
   };
 
-  _keyExtractor = (item, index) => item.id + index;
-
   renderPost = ({ item }) => (
     <Post imageModalToggler={this.toggleModal} {...item} />
   );
+
   render() {
     const {
       posts,
@@ -28,7 +37,10 @@ export default class PostList extends React.Component {
       searchComponent,
       handleEndReached
     } = this.props;
+
     const { modalVisible, imageUrl } = this.state;
+    const emptyListPlaceholder = this._getEmptyListPlaceholder();
+
     return (
       <View
         style={styles.container}
@@ -46,6 +58,7 @@ export default class PostList extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
+          ListEmptyComponent={emptyListPlaceholder}
           onEndReached={handleEndReached}
         />
       </View>
@@ -64,5 +77,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.paleGrey,
     borderRadius: 5,
     padding: 10
+  },
+  emptyListText: {
+    textAlign: "center",
+    fontSize: 16
   }
 });
