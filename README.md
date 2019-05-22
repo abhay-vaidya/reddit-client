@@ -25,9 +25,10 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
 ## Features
 
 - Browse posts with infinite scrolling
+- Pull to refresh
 - Search and change subreddits
 - View images (needs more work)
-  - Tapping thumbnail opens lightbox
+  - Tapping thumbnail opens lightbox (double tap and pinch to zoom)
 - View external links
   - Tapping thumbnail opens web view
 - Tap post to view self post text
