@@ -4,10 +4,12 @@ Used as a playground to learn React Native.
 
 Currently using anonymous Reddit API meaning user can browse content, but not interact with it (upvote, comment, post, etc.). Hoping to integrate the actual API at some point in the near future.
 
-## Install & Run
+## Development
 
 ```
 git clone https://github.com/abhay-vaidya/reddit-client.git
+
+npm install -g expo-cli
 
 cd reddit-client
 
