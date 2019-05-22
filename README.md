@@ -20,7 +20,7 @@ npm start
 
 ## Compatibility
 
-It has only been tested on iOS (X series) so far, not sure how well it works on Android yet.
+It has only been tested on iOS (X series) so far, not sure how well it works on Android or other iPhones yet.
 
 ## Features
 
@@ -31,6 +31,7 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
 - View external links
   - Tapping thumbnail opens web view
 - Tap post to view self post text
+- Dark/Light mode toggle
 
 ## What's Missing
 
@@ -41,4 +42,5 @@ A lot...
 - Viewing gifs/videos
 - Changing post sorting
 - Testing
+- App icon and other assets
 - Likely any other feature of your favourite Reddit client 😅
