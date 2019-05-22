@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { SearchBar, Button } from "react-native-elements";
+import { SearchBar } from "react-native-elements";
+import withTheme from "../utils/Theme";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
 import Loading from "../components/Loading";
-import Colors from "../constants/Colors";
 import { convertRawPosts } from "../utils/RedditDataUtil";
 
 import {
@@ -22,17 +22,7 @@ class HomeScreen extends React.Component {
     title:
       navigation.state.params && navigation.state.params.title
         ? navigation.state.params.title
-        : "Home",
-    headerRight: (
-      <Button
-        type="clear"
-        icon={{
-          name: "brightness-medium",
-          size: 15,
-          color: "white"
-        }}
-      />
-    )
+        : "Home"
   });
 
   _getPosts = () => {
@@ -70,23 +60,26 @@ class HomeScreen extends React.Component {
     });
   };
 
-  _getSearchComponent = () => {
+  _getSearchComponent = styles => {
     return (
       <SearchBar
         onSubmitEditing={this.handleSearch}
         onChangeText={this.updateSearch}
         value={this.state.search}
         platform="ios"
+        inputStyle={styles.searchInput}
+        inputContainerStyle={styles.searchInputContainer}
         placeholder="Search for a subreddit..."
-        containerStyle={{ backgroundColor: "transparent" }}
+        containerStyle={styles.searchContainer}
       />
     );
   };
 
   render() {
-    const { posts, loading } = this.props;
+    const { posts, loading, theme } = this.props;
     const { modalVisible } = this.state;
-    const searchComponent = this._getSearchComponent();
+    const styles = getStyles(theme);
+    const searchComponent = this._getSearchComponent(styles);
 
     if (loading) {
       return <Loading />;
@@ -107,12 +100,22 @@ class HomeScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.primaryBg
-  }
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.primaryBg
+    },
+    searchContainer: {
+      backgroundColor: "transparent"
+    },
+    searchInputContainer: {
+      backgroundColor: theme.secondaryBg
+    },
+    searchInput: {
+      color: theme.primaryText
+    }
+  });
 
 const mapStateToProps = state => {
   const { subreddit, sort, loading, posts } = state.subreddit;
@@ -139,7 +142,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeScreen);
+export default withTheme(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HomeScreen)
+);

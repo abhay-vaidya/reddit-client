@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Layout from "../constants/Layout";
 import { Divider } from "react-native-elements";
 import HTML from "react-native-render-html";
-import Colors from "../constants/Colors";
+import withTheme from "../utils/Theme";
 import { decode } from "he";
 
-export default ({ navigation }) => {
+const CommentsScreen = ({ navigation, theme }) => {
   const {
     title,
     author,
@@ -20,8 +20,10 @@ export default ({ navigation }) => {
     navigation.navigate("LinkContent", { uri: href });
   };
 
+  const styles = getStyles(theme);
+
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <View style={styles.postContainer}>
         <View style={styles.postTextContainer}>
           <Text style={styles.postTitle}>{title}</Text>
@@ -29,6 +31,7 @@ export default ({ navigation }) => {
           {selftext && (
             <HTML
               html={decode(selftext)}
+              baseFontStyle={{ color: theme.primaryText }}
               onLinkPress={navigateToContent}
               imagesMaxWidth={Layout.window.width}
             />
@@ -46,40 +49,48 @@ export default ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  postContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "white",
-    padding: 16,
-    margin: 10
-  },
-  postTextContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between"
-  },
-  divider: {
-    marginVertical: 10
-  },
-  secondaryInfoContainer: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "flex-end",
-    flexDirection: "row"
-  },
-  postTitle: {
-    fontWeight: "bold",
-    fontSize: 20,
-    marginBottom: 6
-  },
-  postAuthor: {
-    color: Colors.secondaryText,
-    fontSize: 16,
-    marginBottom: 10
-  },
-  postInfo: {
-    marginRight: 10,
-    fontSize: 18
-  }
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.primaryBg
+    },
+    postContainer: {
+      flex: 1,
+      flexDirection: "row",
+      backgroundColor: theme.primaryBg,
+      padding: 16,
+      margin: 10
+    },
+    postTextContainer: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "space-between"
+    },
+    divider: {
+      marginVertical: 10
+    },
+    secondaryInfoContainer: {
+      flex: 1,
+      justifyContent: "space-around",
+      alignItems: "flex-end",
+      flexDirection: "row"
+    },
+    postTitle: {
+      fontWeight: "bold",
+      fontSize: 20,
+      marginBottom: 6,
+      color: theme.primaryText
+    },
+    postAuthor: {
+      color: theme.secondaryText,
+      fontSize: 16,
+      marginBottom: 10
+    },
+    postInfo: {
+      marginRight: 10,
+      fontSize: 18,
+      color: theme.primaryText
+    }
+  });
+
+export default withTheme(CommentsScreen);
