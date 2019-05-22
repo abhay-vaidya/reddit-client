@@ -67,9 +67,10 @@ class HomeScreen extends React.Component {
         onChangeText={this.updateSearch}
         value={this.state.search}
         platform="ios"
-        inputContainerStyle={styles.searchContainer}
+        inputStyle={styles.searchInput}
+        inputContainerStyle={styles.searchInputContainer}
         placeholder="Search for a subreddit..."
-        containerStyle={{ backgroundColor: "transparent" }}
+        containerStyle={styles.searchContainer}
       />
     );
   };
@@ -106,7 +107,13 @@ const getStyles = theme =>
       backgroundColor: theme.primaryBg
     },
     searchContainer: {
+      backgroundColor: "transparent"
+    },
+    searchInputContainer: {
       backgroundColor: theme.secondaryBg
+    },
+    searchInput: {
+      color: theme.primaryText
     }
   });
 

@@ -79,7 +79,7 @@ class Post extends React.PureComponent {
             <View>
               <Text style={styles.postAuthor}>{author}</Text>
               <View style={styles.secondaryInfoContainer}>
-                <Text style={styles.postInfo}>{subreddit}</Text>
+                <Text style={styles.postInfo}>r/{subreddit}</Text>
                 <Text style={styles.postInfo}>↑ {score}</Text>
                 <Text style={styles.postInfo}>{numComments} Comments</Text>
               </View>
