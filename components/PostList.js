@@ -1,8 +1,8 @@
 import React from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
-import Post from "./Post";
 import ImageModal from "./ImageModal";
+import Post from "./Post";
 import withTheme from "../utils/Theme";
 
 class PostList extends React.Component {

@@ -1,6 +1,6 @@
 import React from "react";
 import { WebView } from "react-native";
-import Loading from "../components/Loading";
+import { Loading } from "../components";
 
 const _getLoadingComponent = () => {
   return <Loading />;

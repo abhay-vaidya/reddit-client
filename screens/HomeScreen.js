@@ -3,8 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { connect } from "react-redux";
-import PostList from "../components/PostList";
-import Loading from "../components/Loading";
+import { PostList, Loading } from "../components";
 import { convertRawPosts } from "../utils/RedditDataUtil";
 
 import {
