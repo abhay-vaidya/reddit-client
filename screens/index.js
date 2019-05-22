@@ -1,5 +1,5 @@
 import HomeScreen from "./HomeScreen";
-import CommentsScreen from "./CommentsScreen";
+import PostDetailsScreen from "./PostDetailsScreen";
 import WebScreen from "./WebScreen";
 
-export { HomeScreen, CommentsScreen, WebScreen };
+export { HomeScreen, PostDetailsScreen, WebScreen };

@@ -64,8 +64,8 @@ class Post extends React.PureComponent {
     );
   };
 
-  navigateToComments = () => {
-    this.props.navigation.navigate("Comments", { props: this.props });
+  navigateToPostDetails = () => {
+    this.props.navigation.navigate("PostDetails", { props: this.props });
   };
 
   render() {
@@ -75,7 +75,7 @@ class Post extends React.PureComponent {
 
     return (
       <TouchableHighlight
-        onPress={this.navigateToComments}
+        onPress={this.navigateToPostDetails}
         underlayColor={theme.secondaryBg}
       >
         <View style={styles.postContainer}>
