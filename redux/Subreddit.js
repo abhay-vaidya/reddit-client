@@ -24,7 +24,6 @@ export default function reducer(
     case SET_SUBREDDIT:
       return { ...state, subreddit: action.subreddit };
     case GET_SUBREDDIT_POSTS:
-    case GET_NEXT_SUBREDDIT_POSTS:
       return { ...state, loading: true };
     case GET_SUBREDDIT_POSTS_SUCCESS:
       return {

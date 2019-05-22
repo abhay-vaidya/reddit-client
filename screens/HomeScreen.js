@@ -20,10 +20,9 @@ class HomeScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     title:
-      typeof navigation.state.params === "undefined" ||
-      typeof navigation.state.params.title === "undefined"
-        ? "Home"
-        : navigation.state.params.title
+      navigation.state.params && navigation.state.params.title
+        ? navigation.state.params.title
+        : "Home"
   });
 
   _getPosts = () => {

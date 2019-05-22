@@ -58,6 +58,7 @@ export default class PostList extends React.Component {
           data={posts}
           refreshing={loading}
           onRefresh={handleRefresh}
+          onEndReachedThreshold={0.5}
           keyExtractor={this._keyExtractor}
           renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
