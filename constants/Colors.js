@@ -8,12 +8,12 @@ const light = {
 };
 
 const dark = {
-  primary: "#1a202c",
+  primary: "#1A202C",
   accent: "white",
   primaryBg: "black",
   primaryText: "white",
   secondaryBg: "#424242",
-  secondaryText: "#9e9e9e"
+  secondaryText: "#9E9E9E"
 };
 
 export { light, dark };
