@@ -8,14 +8,12 @@ import store from "../redux/Store";
 import { toggleTheme } from "../redux/Global";
 
 import { light } from "../constants/Colors";
-import HomeScreen from "../screens/HomeScreen";
-import ContentScreen from "../screens/WebScreen";
-import CommentsScreen from "../screens/CommentsScreen";
+import { HomeScreen, WebScreen, CommentsScreen } from "../screens";
 
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    LinkContent: ContentScreen,
+    LinkContent: WebScreen,
     Comments: CommentsScreen
   },
   {
