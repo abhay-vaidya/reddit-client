@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
+import { Divider } from "react-native-elements";
 import Post from "./Post";
 import ImageModal from "./ImageModal";
 import Colors from "../constants/Colors";
@@ -18,6 +19,8 @@ export default class PostList extends React.Component {
       </Text>
     );
   };
+
+  _getPostDivider = () => <Divider />;
 
   toggleModal = url => {
     this.setState(prevState => {
@@ -59,6 +62,7 @@ export default class PostList extends React.Component {
           renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
           ListEmptyComponent={emptyListPlaceholder}
+          ItemSeparatorComponent={this._getPostDivider}
           onEndReached={handleEndReached}
         />
       </View>

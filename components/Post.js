@@ -97,13 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: Colors.primaryBg,
-    padding: 16,
-    margin: 10,
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    shadowColor: "black",
-    shadowOffset: { height: 2, width: 0 },
-    borderRadius: 10
+    padding: 16
   },
   postTextContainer: {
     flex: 1,
