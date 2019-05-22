@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableHighlight
+} from "react-native";
 import { Icon, Image } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
@@ -68,7 +74,10 @@ class Post extends React.PureComponent {
     const thumbnailMarkup = this._getThumbnail(styles);
 
     return (
-      <TouchableOpacity onPress={this.navigateToComments} activeOpacity={0.5}>
+      <TouchableHighlight
+        onPress={this.navigateToComments}
+        underlayColor={theme.secondaryBg}
+      >
         <View style={styles.postContainer}>
           {thumbnailMarkup}
 
@@ -86,7 +95,7 @@ class Post extends React.PureComponent {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 }

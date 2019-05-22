@@ -20,7 +20,7 @@ class PostList extends React.Component {
     );
   };
 
-  _getPostDivider = () => <Divider />;
+  _getPostDivider = styles => () => <Divider style={styles.divider} />;
 
   toggleModal = url => {
     this.setState(prevState => {
@@ -65,7 +65,7 @@ class PostList extends React.Component {
           renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
           ListEmptyComponent={emptyListPlaceholder}
-          ItemSeparatorComponent={this._getPostDivider}
+          ItemSeparatorComponent={this._getPostDivider(styles)}
           onEndReached={handleEndReached}
         />
       </View>
@@ -89,6 +89,9 @@ const getStyles = theme =>
     emptyListText: {
       textAlign: "center",
       fontSize: 16
+    },
+    divider: {
+      backgroundColor: theme.secondaryBg
     }
   });
 

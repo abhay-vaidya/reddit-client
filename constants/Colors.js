@@ -3,8 +3,8 @@ const light = {
   accent: "white",
   primaryBg: "white",
   primaryText: "black",
-  secondaryBg: "#EFEFED",
-  secondaryText: "#A5A4A4"
+  secondaryBg: "#E0E0E0",
+  secondaryText: "#BDBDBD"
 };
 
 const dark = {
