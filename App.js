@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import axios from "axios";
 import axiosMiddleware from "redux-axios-middleware";
 import { createStore, applyMiddleware, compose } from "redux";
-import reducer from "./redux/Subreddit";
+import Reducer from "./redux";
 import Colors from "./constants/Colors";
 
 import AppNavigator from "./navigation/AppNavigator";
@@ -17,7 +17,7 @@ const client = axios.create({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  reducer,
+  Reducer,
   composeEnhancers(applyMiddleware(axiosMiddleware(client)))
 );
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import PostList from "../components/PostList";
 import Loading from "../components/Loading";
@@ -22,7 +22,17 @@ class HomeScreen extends React.Component {
     title:
       navigation.state.params && navigation.state.params.title
         ? navigation.state.params.title
-        : "Home"
+        : "Home",
+    headerRight: (
+      <Button
+        type="clear"
+        icon={{
+          name: "brightness-medium",
+          size: 15,
+          color: "white"
+        }}
+      />
+    )
   });
 
   _getPosts = () => {
@@ -105,8 +115,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const { subreddit, sort, loading } = state;
-  let newPosts = convertRawPosts(state.posts);
+  const { subreddit, sort, loading, posts } = state.subreddit;
+  let newPosts = convertRawPosts(posts);
   return {
     subreddit,
     sort,
