@@ -1,25 +1,9 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
-import axios from "axios";
-import axiosMiddleware from "redux-axios-middleware";
-import { createStore, applyMiddleware, compose } from "redux";
-import Reducer from "./redux";
-import Colors from "./constants/Colors";
+import store from "./redux/Store";
 
 import AppNavigator from "./navigation/AppNavigator";
-
-const client = axios.create({
-  baseURL: "https://www.reddit.com",
-  responseType: "json"
-});
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  Reducer,
-  composeEnhancers(applyMiddleware(axiosMiddleware(client)))
-);
 
 export default class App extends React.Component {
   render() {
@@ -37,6 +21,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primaryBg
+    backgroundColor: "white"
   }
 });

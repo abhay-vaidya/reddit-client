@@ -3,16 +3,16 @@ import { FlatList, View, Text, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import Post from "./Post";
 import ImageModal from "./ImageModal";
-import Colors from "../constants/Colors";
+import withTheme from "../utils/Theme";
 
-export default class PostList extends React.Component {
+class PostList extends React.Component {
   state = {
     modalVisible: false
   };
 
   _keyExtractor = item => item.id;
 
-  _getEmptyListPlaceholder = () => {
+  _getEmptyListPlaceholder = styles => {
     return (
       <Text style={styles.emptyListText}>
         {`Hmm... there's nothing here. 🧐\nTry another subreddit!`}
@@ -38,11 +38,13 @@ export default class PostList extends React.Component {
       loading,
       handleRefresh,
       searchComponent,
-      handleEndReached
+      handleEndReached,
+      theme
     } = this.props;
 
     const { modalVisible, imageUrl } = this.state;
-    const emptyListPlaceholder = this._getEmptyListPlaceholder();
+    const styles = getStyles(theme);
+    const emptyListPlaceholder = this._getEmptyListPlaceholder(styles);
 
     return (
       <View
@@ -71,20 +73,23 @@ export default class PostList extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.primaryBg
-  },
-  search: {
-    height: 40,
-    margin: 10,
-    backgroundColor: Colors.secondaryBg,
-    borderRadius: 5,
-    padding: 10
-  },
-  emptyListText: {
-    textAlign: "center",
-    fontSize: 16
-  }
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.primaryBg
+    },
+    search: {
+      height: 40,
+      margin: 10,
+      backgroundColor: theme.secondaryBg,
+      borderRadius: 5,
+      padding: 10
+    },
+    emptyListText: {
+      textAlign: "center",
+      fontSize: 16
+    }
+  });
+
+export default withTheme(PostList);

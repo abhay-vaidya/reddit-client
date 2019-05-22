@@ -1,18 +1,18 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon, Image } from "react-native-elements";
+import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
 
-import Colors from "../constants/Colors";
-
 class Post extends React.PureComponent {
-  _getThumbnail = () => {
+  _getThumbnail = styles => {
     const {
       thumbnail,
       postType,
       navigation,
       url,
-      imageModalToggler
+      imageModalToggler,
+      theme
     } = this.props;
 
     const navigateToContent = () =>
@@ -26,7 +26,7 @@ class Post extends React.PureComponent {
         <View style={styles.defaultThumb}>
           <Icon
             name={postType === "self" ? "subject" : "link"}
-            color={Colors.secondaryText}
+            color={theme.secondaryText}
           />
         </View>
       </TouchableOpacity>
@@ -63,8 +63,9 @@ class Post extends React.PureComponent {
   };
 
   render() {
-    const { title, author, score, numComments, subreddit } = this.props;
-    const thumbnailMarkup = this._getThumbnail();
+    const { title, author, score, numComments, subreddit, theme } = this.props;
+    const styles = getStyles(theme);
+    const thumbnailMarkup = this._getThumbnail(styles);
 
     return (
       <TouchableOpacity onPress={this.navigateToComments} activeOpacity={0.5}>
@@ -90,52 +91,55 @@ class Post extends React.PureComponent {
   }
 }
 
-export default withNavigation(Post);
+const getStyles = theme =>
+  StyleSheet.create({
+    postContainer: {
+      flex: 1,
+      flexDirection: "row",
+      backgroundColor: theme.primaryBg,
+      padding: 16
+    },
+    postTextContainer: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "space-between"
+    },
+    secondaryInfoContainer: {
+      flex: 1,
+      alignItems: "flex-end",
+      flexDirection: "row"
+    },
+    postTitle: {
+      color: theme.primaryText,
+      fontWeight: "bold",
+      marginBottom: 6
+    },
+    postAuthor: {
+      color: theme.secondaryText,
+      fontSize: 12,
+      marginBottom: 3
+    },
+    postInfo: {
+      color: theme.primaryText,
+      marginRight: 10,
+      fontSize: 12
+    },
+    thumbnail: {
+      width: 60,
+      height: 60,
+      borderRadius: 5,
+      marginRight: 12
+    },
+    defaultThumb: {
+      width: 60,
+      height: 60,
+      borderRadius: 5,
+      marginRight: 12,
+      flex: 0,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: theme.secondaryBg
+    }
+  });
 
-const styles = StyleSheet.create({
-  postContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: Colors.primaryBg,
-    padding: 16
-  },
-  postTextContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between"
-  },
-  secondaryInfoContainer: {
-    flex: 1,
-    alignItems: "flex-end",
-    flexDirection: "row"
-  },
-  postTitle: {
-    fontWeight: "bold",
-    marginBottom: 6
-  },
-  postAuthor: {
-    color: Colors.secondaryText,
-    fontSize: 12,
-    marginBottom: 3
-  },
-  postInfo: {
-    marginRight: 10,
-    fontSize: 12
-  },
-  thumbnail: {
-    width: 60,
-    height: 60,
-    borderRadius: 5,
-    marginRight: 12
-  },
-  defaultThumb: {
-    width: 60,
-    height: 60,
-    borderRadius: 5,
-    marginRight: 12,
-    flex: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.secondaryBg
-  }
-});
+export default withTheme(withNavigation(Post));
