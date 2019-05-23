@@ -33,6 +33,7 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
   - Tapping thumbnail opens web view
 - Tap post to view self post text
 - Dark/Light mode toggle
+- Changing post sorting
 
 ## What's Missing
 
@@ -41,7 +42,7 @@ A lot...
 - As mentioned before, any sort of interactions with Reddit itself
 - Viewing comments
 - Viewing gifs/videos
-- Changing post sorting
 - Testing
 - App icon and other assets
+- Error handling
 - Likely any other feature of your favourite Reddit client 😅
