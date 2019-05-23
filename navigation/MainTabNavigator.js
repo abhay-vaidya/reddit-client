@@ -7,7 +7,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import store from "../redux/Store";
 import { toggleTheme } from "../redux/Global";
 
-import { light } from "../constants/Colors";
+import Defaults from "../constants/Defaults";
 import { HomeScreen, WebScreen, PostDetailsScreen } from "../screens";
 
 const HomeStack = createStackNavigator(
@@ -19,10 +19,10 @@ const HomeStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: light.primary,
+        backgroundColor: Defaults.theme.primary,
         borderBottomWidth: 0
       },
-      headerTintColor: light.accent,
+      headerTintColor: Defaults.theme.accent,
       headerTitleStyle: {
         fontWeight: "bold"
       },
@@ -33,7 +33,7 @@ const HomeStack = createStackNavigator(
           icon={{
             name: "brightness-medium",
             size: 18,
-            color: light.accent
+            color: Defaults.theme.accent
           }}
         />
       )

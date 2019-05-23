@@ -1,3 +1,5 @@
+import Defaults from "../constants/Defaults";
+
 // Constants
 export const SET_SUBREDDIT = "reddit-client/subreddit/SET";
 export const GET_SUBREDDIT_POSTS = "reddit-client/posts/LOAD";
@@ -13,8 +15,8 @@ export const GET_NEXT_SUBREDDIT_POSTS_FAIL =
 // Reducer
 export default function reducer(
   state = {
-    subreddit: "pics",
-    sort: "hot",
+    subreddit: Defaults.subreddit,
+    sort: Defaults.sort,
     posts: [],
     loading: false
   },
@@ -61,13 +63,6 @@ export function getSubredditPosts(subreddit, sort) {
   };
 }
 
-export function setSubreddit(subreddit) {
-  return {
-    type: SET_SUBREDDIT,
-    subreddit
-  };
-}
-
 export function getNextSubredditPosts(subreddit, sort, lastPostName) {
   return {
     type: GET_NEXT_SUBREDDIT_POSTS,
@@ -76,5 +71,12 @@ export function getNextSubredditPosts(subreddit, sort, lastPostName) {
         url: `/r/${subreddit}/${sort}.json?after=${lastPostName}`
       }
     }
+  };
+}
+
+export function setSubreddit(subreddit) {
+  return {
+    type: SET_SUBREDDIT,
+    subreddit
   };
 }

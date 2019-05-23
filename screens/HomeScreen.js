@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { SearchBar, Button } from "react-native-elements";
 import withTheme from "../utils/Theme";
-import { light } from "../constants/Colors";
+import Defaults from "../constants/Defaults";
 import { connect } from "react-redux";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { PostList, Loading } from "../components";
@@ -17,16 +17,14 @@ import {
 
 @connectActionSheet
 class HomeScreen extends React.Component {
-  state = {
-    search: ""
-  };
-
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
-    const accentColour = params.theme ? params.theme.accent : light.accent;
+    const accentColour = params.theme
+      ? params.theme.accent
+      : Defaults.theme.accent;
 
     return {
-      title: params.title ? params.title : "Home",
+      title: params.title ? params.title : Defaults.subreddit,
       headerLeft: (
         <Button
           type="clear"
@@ -38,11 +36,16 @@ class HomeScreen extends React.Component {
             color: accentColour
           }}
           titleStyle={{
-            color: accentColour
+            color: accentColour,
+            fontSize: 14
           }}
         />
       )
     };
+  };
+
+  state = {
+    search: ""
   };
 
   _getPosts = () => {
@@ -63,7 +66,7 @@ class HomeScreen extends React.Component {
     this.props.navigation.setParams({
       title: subreddit,
       sort,
-      sortHandler: this._onOpenActionSheet,
+      sortHandler: this._onOpenSortActionSheet,
       theme
     });
     this._getPosts();
@@ -102,7 +105,7 @@ class HomeScreen extends React.Component {
     );
   };
 
-  _onOpenActionSheet = () => {
+  _onOpenSortActionSheet = () => {
     const {
       showActionSheetWithOptions,
       _getSubredditPosts,
@@ -121,7 +124,7 @@ class HomeScreen extends React.Component {
       },
       buttonIndex => {
         const selectedSort = options[buttonIndex].toLowerCase();
-        if (buttonIndex < options.length - 2) {
+        if (buttonIndex < options.length - 1) {
           _getSubredditPosts(subreddit, selectedSort).then(() => {
             navigation.setParams({
               title: subreddit,
