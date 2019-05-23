@@ -1,4 +1,5 @@
-import { light, dark } from "../constants/Colors";
+import { light, dark } from "../constants/Colours";
+import Defaults from "../constants/Defaults";
 
 // Constants
 export const TOGGLE_THEME = "reddit-client/global/THEME";
@@ -6,8 +7,8 @@ export const TOGGLE_THEME = "reddit-client/global/THEME";
 // Reducer
 export default function reducer(
   state = {
-    isDark: false,
-    theme: light
+    isDark: Defaults.isDark,
+    theme: Defaults.theme
   },
   action
 ) {
