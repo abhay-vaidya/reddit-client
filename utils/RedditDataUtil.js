@@ -1,7 +1,8 @@
 export function convertRawPosts(posts) {
   if (!posts) {
-    return posts;
+    return [];
   }
+
   return posts.map(post => {
     const { data } = post;
     const {
