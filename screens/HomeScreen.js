@@ -1,10 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Button } from "react-native-elements";
 import withTheme from "../utils/Theme";
+import { light } from "../constants/Colors";
 import { connect } from "react-redux";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { PostList, Loading } from "../components";
 import { convertRawPosts } from "../utils/RedditDataUtil";
+import SortEnum from "../constants/Sorting";
 
 import {
   getSubredditPosts,
@@ -12,17 +15,35 @@ import {
   setSubreddit
 } from "../redux/Subreddit";
 
+@connectActionSheet
 class HomeScreen extends React.Component {
   state = {
     search: ""
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    title:
-      navigation.state.params && navigation.state.params.title
-        ? navigation.state.params.title
-        : "Home"
-  });
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    const accentColour = params.theme ? params.theme.accent : light.accent;
+
+    return {
+      title: params.title ? params.title : "Home",
+      headerLeft: (
+        <Button
+          type="clear"
+          title={params.sort}
+          onPress={params.sortHandler}
+          icon={{
+            name: "sort",
+            size: 18,
+            color: accentColour
+          }}
+          titleStyle={{
+            color: accentColour
+          }}
+        />
+      )
+    };
+  };
 
   _getPosts = () => {
     const { subreddit, sort } = this.props;
@@ -38,7 +59,13 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ title: this.props.subreddit });
+    const { subreddit, sort, theme } = this.props;
+    this.props.navigation.setParams({
+      title: subreddit,
+      sort,
+      sortHandler: this._onOpenActionSheet,
+      theme
+    });
     this._getPosts();
   }
 
@@ -52,9 +79,10 @@ class HomeScreen extends React.Component {
 
   handleSearch = e => {
     const searchTerm = e.nativeEvent.text.trim().toLowerCase();
+    const { sort, subreddit } = this.props;
     this.props._setSubreddit(searchTerm);
-    this.props._getSubredditPosts(searchTerm, this.props.sort).then(() => {
-      this.props.navigation.setParams({ title: this.props.subreddit });
+    this.props._getSubredditPosts(searchTerm, sort).then(() => {
+      this.props.navigation.setParams({ title: subreddit, sort });
       this.setState({ search: "" });
     });
   };
@@ -71,6 +99,37 @@ class HomeScreen extends React.Component {
         placeholder="Search for a subreddit..."
         containerStyle={styles.searchContainer}
       />
+    );
+  };
+
+  _onOpenActionSheet = () => {
+    const {
+      showActionSheetWithOptions,
+      _getSubredditPosts,
+      subreddit,
+      navigation
+    } = this.props;
+    const options = [...Object.values(SortEnum), "Cancel"];
+    const cancelButtonIndex = 6;
+    const title = "Sort by...";
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        title
+      },
+      buttonIndex => {
+        const selectedSort = options[buttonIndex].toLowerCase();
+        if (buttonIndex < options.length - 2) {
+          _getSubredditPosts(subreddit, selectedSort).then(() => {
+            navigation.setParams({
+              title: subreddit,
+              sort: selectedSort
+            });
+          });
+        }
+      }
     );
   };
 

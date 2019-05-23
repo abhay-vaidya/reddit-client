@@ -13,8 +13,8 @@ export const GET_NEXT_SUBREDDIT_POSTS_FAIL =
 // Reducer
 export default function reducer(
   state = {
-    subreddit: "toronto",
-    sort: "best",
+    subreddit: "pics",
+    sort: "hot",
     posts: [],
     loading: false
   },
