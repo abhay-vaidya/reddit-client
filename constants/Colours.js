@@ -13,8 +13,8 @@ const dark = {
   accent: "white",
   primaryBg: "black",
   primaryText: "white",
-  secondaryBg: "#424242",
-  secondaryText: "#757575",
+  secondaryBg: "#212121",
+  secondaryText: "#616161",
   externalLink: "#63B3ED"
 };
 
