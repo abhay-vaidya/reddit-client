@@ -22,7 +22,7 @@ class PostDetailsScreen extends React.Component {
   };
 
   _navigateToContent = (_, href) => {
-    navigation.navigate("LinkContent", { uri: href });
+    this.props.navigation.navigate("LinkContent", { uri: href });
   };
 
   render() {
