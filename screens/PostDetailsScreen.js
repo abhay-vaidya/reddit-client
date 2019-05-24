@@ -87,7 +87,7 @@ const getStyles = theme =>
     },
     postTitle: {
       fontWeight: "bold",
-      fontSize: 20,
+      fontSize: 16,
       marginBottom: 6,
       color: theme.primaryText
     },
@@ -98,7 +98,7 @@ const getStyles = theme =>
     },
     postInfo: {
       marginRight: 10,
-      fontSize: 18,
+      fontSize: 16,
       color: theme.primaryText
     }
   });
