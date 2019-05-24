@@ -33,12 +33,12 @@ export default function reducer(
     case SET_SUBREDDIT:
       return { ...state, subreddit: action.subreddit };
     case GET_POST_COMMENTS:
+      return { ...state, loadingComments: true };
     case GET_SUBREDDIT_POSTS:
       return { ...state, loadingPosts: true };
     case GET_SUBREDDIT_POSTS_SUCCESS:
       return {
         ...state,
-        loadingComments: false,
         loadingPosts: false,
         posts: action.payload.data.data.children
       };
@@ -46,23 +46,25 @@ export default function reducer(
       return {
         ...state,
         loadingComments: false,
-        loadingPosts: false,
         posts: [...state.posts, ...action.payload.data.data.children]
       };
     case GET_POST_COMMENTS_SUCCESS:
       return {
         ...state,
-        loadingPosts: false,
         loadingComments: false,
         comments: action.payload.data[1].data.children
       };
     case GET_POST_COMMENTS_FAIL:
+      return {
+        ...state,
+        loadingComments: false,
+        error: action.error
+      };
     case GET_SUBREDDIT_POSTS_FAIL:
     case GET_NEXT_SUBREDDIT_POSTS_FAIL:
       return {
         ...state,
         loadingPosts: false,
-        loadingComments: false,
         error: action.error
       };
     default:
