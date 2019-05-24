@@ -1,9 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import Layout from "../constants/Layout";
-import HTML from "react-native-render-html";
+import HTML from "./HTML";
 import { withNavigation } from "react-navigation";
-import { decode } from "he";
 import { commentColours } from "../constants/Colours";
 import withTheme from "../utils/Theme";
 
@@ -12,10 +10,6 @@ class Comment extends React.PureComponent {
 
   renderComment = theme => ({ item }) => <Comment {...item} theme={theme} />;
 
-  _navigateToContent = (_, href) => {
-    this.props.navigation.navigate("LinkContent", { uri: href });
-  };
-
   render() {
     const { author, body, score, replies, depth, theme } = this.props;
     const styles = getStyles(theme, depth);
@@ -23,16 +17,13 @@ class Comment extends React.PureComponent {
     return (
       <View>
         <View style={styles.commentContainer}>
-          <View style={styles.secondaryInfoContainer}>
-            <Text style={styles.postInfo}>{author}</Text>
-            <Text style={styles.postInfo}>↑ {score}</Text>
+          <View style={styles.commentInnerContainer}>
+            <View style={styles.secondaryInfoContainer}>
+              <Text style={styles.commentAuthor}>{author}</Text>
+              <Text style={styles.commentScore}>↑ {score}</Text>
+            </View>
+            {body && <HTML html={body} />}
           </View>
-          <HTML
-            html={decode(body)}
-            baseFontStyle={{ color: theme.primaryText }}
-            onLinkPress={this._navigateToContent}
-            imagesMaxWidth={Layout.window.width}
-          />
         </View>
         <FlatList
           data={replies}
@@ -49,27 +40,36 @@ const getCommentColour = depth => commentColours[depth % commentColours.length];
 const getStyles = (theme, depth) =>
   StyleSheet.create({
     commentContainer: {
+      backgroundColor: theme.primaryBg,
+      paddingVertical: 12,
+      paddingRight: 12,
+      marginLeft: 10 * depth,
+      borderTopWidth: 1,
+      borderTopColor: theme.secondaryBg
+    },
+    commentInnerContainer: {
       flex: 1,
       flexDirection: "column",
-      backgroundColor: theme.primaryBg,
-      paddingHorizontal: 16,
-      paddingVertical: 10,
-      borderLeftWidth: 3,
-      marginLeft: 10 * depth,
+      borderLeftWidth: depth > 0 ? 3 : 0,
       borderLeftColor: getCommentColour(depth),
-      borderBottomWidth: 1,
-      borderBottomColor: theme.secondaryBg
+      backgroundColor: theme.primaryBg,
+      paddingLeft: 12
     },
     secondaryInfoContainer: {
       flex: 1,
       flexDirection: "row"
     },
-    postInfo: {
+    commentAuthor: {
       color: theme.primaryText,
       fontWeight: "bold",
       fontSize: 12,
       marginBottom: 3,
       marginRight: 6
+    },
+    commentScore: {
+      color: theme.secondaryText,
+      fontSize: 12,
+      marginBottom: 3
     }
   });
 

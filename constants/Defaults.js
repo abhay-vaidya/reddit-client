@@ -1,7 +1,7 @@
 import { light } from "./Colours";
 
 const defaults = {
-  subreddit: "popular",
+  subreddit: "toronto",
   sort: "hot",
   theme: light,
   isDark: false

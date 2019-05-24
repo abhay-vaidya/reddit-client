@@ -1,15 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { connect } from "react-redux";
-import Layout from "../constants/Layout";
 import { Divider } from "react-native-elements";
-import HTML from "react-native-render-html";
 import withTheme from "../utils/Theme";
-import { decode } from "he";
 import { getPostComments } from "../redux/Subreddit";
 import { transformRawComments } from "../utils/RedditDataUtil";
-import CommentsList from "../components/CommentsList";
-import Loading from "../components/Loading";
+import { CommentsList, HTML, Loading } from "../components";
 
 class PostDetailsScreen extends React.Component {
   componentDidMount() {
@@ -19,10 +15,6 @@ class PostDetailsScreen extends React.Component {
 
   _getPostDetails = () => {
     return this.props.navigation.getParam("props", {});
-  };
-
-  _navigateToContent = (_, href) => {
-    this.props.navigation.navigate("LinkContent", { uri: href });
   };
 
   render() {
@@ -45,32 +37,24 @@ class PostDetailsScreen extends React.Component {
     }
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.postDetailsContainer}>
         <View style={styles.postContainer}>
           <View style={styles.postTextContainer}>
             <Text style={styles.postTitle}>{title}</Text>
             <Text style={styles.postAuthor}>{author}</Text>
-            {selftext && (
-              <HTML
-                html={decode(selftext)}
-                baseFontStyle={{ color: theme.primaryText }}
-                onLinkPress={this._navigateToContent}
-                imagesMaxWidth={Layout.window.width}
-              />
-            )}
-            <Divider style={styles.divider} />
+            {selftext && <HTML html={selftext} />}
+            <Divider />
             <View style={styles.secondaryInfoContainer}>
               <Text style={styles.postInfo}>{`r/${subreddit}`}</Text>
               <Text style={styles.postInfo}>↑ {score}</Text>
               <Text style={styles.postInfo}>{numComments} Comments</Text>
             </View>
-            <Divider style={styles.divider} />
-            <CommentsList
-              comments={comments}
-              loadingComments={loadingComments}
-              postId={id}
-            />
           </View>
+          <CommentsList
+            comments={comments}
+            loadingComments={loadingComments}
+            postId={id}
+          />
         </View>
       </ScrollView>
     );
@@ -79,26 +63,24 @@ class PostDetailsScreen extends React.Component {
 
 const getStyles = theme =>
   StyleSheet.create({
-    container: {
+    postDetailsContainer: {
       backgroundColor: theme.primaryBg
     },
     postContainer: {
       flex: 1,
-      flexDirection: "row",
-      backgroundColor: theme.primaryBg,
-      paddingVertical: 16,
-      margin: 10
+      flexDirection: "column",
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+      backgroundColor: theme.primaryBg
     },
     postTextContainer: {
       flex: 1,
       flexDirection: "column",
       justifyContent: "space-between"
     },
-    divider: {
-      marginVertical: 10
-    },
     secondaryInfoContainer: {
       flex: 1,
+      paddingVertical: 12,
       justifyContent: "space-around",
       alignItems: "flex-end",
       flexDirection: "row"

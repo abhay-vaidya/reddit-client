@@ -4,7 +4,8 @@ const light = {
   primaryBg: "white",
   primaryText: "black",
   secondaryBg: "#E0E0E0",
-  secondaryText: "#BDBDBD"
+  secondaryText: "#9E9E9E",
+  externalLink: "#2B6CB0"
 };
 
 const dark = {
@@ -13,7 +14,8 @@ const dark = {
   primaryBg: "black",
   primaryText: "white",
   secondaryBg: "#424242",
-  secondaryText: "#9E9E9E"
+  secondaryText: "#757575",
+  externalLink: "#63B3ED"
 };
 
 const commentColours = [
