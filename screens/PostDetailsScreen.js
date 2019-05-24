@@ -86,7 +86,7 @@ const getStyles = theme =>
       flex: 1,
       flexDirection: "row",
       backgroundColor: theme.primaryBg,
-      padding: 16,
+      paddingVertical: 16,
       margin: 10
     },
     postTextContainer: {

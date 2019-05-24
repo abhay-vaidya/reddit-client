@@ -16,4 +16,14 @@ const dark = {
   secondaryText: "#9E9E9E"
 };
 
-export { light, dark };
+const commentColours = [
+  "#F56565",
+  "#48BB78",
+  "#4299E1",
+  "#ED8936",
+  "#667EEA",
+  "#ECC94B",
+  "#ED64A6"
+];
+
+export { light, dark, commentColours };

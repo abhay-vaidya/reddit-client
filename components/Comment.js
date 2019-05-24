@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import { commentColours } from "../constants/Colours";
 import withTheme from "../utils/Theme";
 
 class Comment extends React.PureComponent {
@@ -30,6 +31,8 @@ class Comment extends React.PureComponent {
   }
 }
 
+const getCommentColour = depth => commentColours[depth % commentColours.length];
+
 const getStyles = (theme, depth) =>
   StyleSheet.create({
     commentContainer: {
@@ -40,7 +43,7 @@ const getStyles = (theme, depth) =>
       paddingVertical: 10,
       borderLeftWidth: 3,
       marginLeft: 10 * depth,
-      borderLeftColor: "green",
+      borderLeftColor: getCommentColour(depth),
       borderBottomWidth: 1,
       borderBottomColor: theme.secondaryBg
     },
