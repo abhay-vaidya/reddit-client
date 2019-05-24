@@ -1,5 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import Layout from "../constants/Layout";
+import HTML from "react-native-render-html";
+import { withNavigation } from "react-navigation";
+import { decode } from "he";
 import { commentColours } from "../constants/Colours";
 import withTheme from "../utils/Theme";
 
@@ -7,6 +11,10 @@ class Comment extends React.PureComponent {
   _keyExtractor = item => item.id;
 
   renderComment = theme => ({ item }) => <Comment {...item} theme={theme} />;
+
+  _navigateToContent = (_, href) => {
+    this.props.navigation.navigate("LinkContent", { uri: href });
+  };
 
   render() {
     const { author, body, score, replies, depth, theme } = this.props;
@@ -19,7 +27,12 @@ class Comment extends React.PureComponent {
             <Text style={styles.postInfo}>{author}</Text>
             <Text style={styles.postInfo}>↑ {score}</Text>
           </View>
-          <Text>{body}</Text>
+          <HTML
+            html={decode(body)}
+            baseFontStyle={{ color: theme.primaryText }}
+            onLinkPress={this._navigateToContent}
+            imagesMaxWidth={Layout.window.width}
+          />
         </View>
         <FlatList
           data={replies}
@@ -52,6 +65,7 @@ const getStyles = (theme, depth) =>
       flexDirection: "row"
     },
     postInfo: {
+      color: theme.primaryText,
       fontWeight: "bold",
       fontSize: 12,
       marginBottom: 3,
@@ -59,4 +73,4 @@ const getStyles = (theme, depth) =>
     }
   });
 
-export default withTheme(Comment);
+export default withNavigation(withTheme(Comment));

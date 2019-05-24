@@ -56,10 +56,10 @@ export function transformRawComments(rawComments) {
   });
 
   return filteredComments.map(comment => {
-    const { author, body, score, replies, depth, id } = comment.data;
+    const { author, body_html, score, replies, depth, id } = comment.data;
     const newReplies = replies
       ? transformRawComments(replies.data.children)
       : [];
-    return { author, body, score, replies: newReplies, depth, id };
+    return { author, body: body_html, score, replies: newReplies, depth, id };
   });
 }
