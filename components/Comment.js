@@ -1,17 +1,39 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import HTML from "./HTML";
+import IconText from "./IconText";
 import { withNavigation } from "react-navigation";
 import { commentColours } from "../constants/Colours";
+import { formatNumber, formatUnixTime } from "../utils/Formatting";
 import withTheme from "../utils/Theme";
 
 class Comment extends React.PureComponent {
   _keyExtractor = item => item.id;
 
-  renderComment = theme => ({ item }) => <Comment {...item} theme={theme} />;
+  _renderComment = theme => ({ item }) => <Comment {...item} theme={theme} />;
+
+  _renderCommentInfo = (iconName, content) => {
+    return (
+      <IconText
+        iconName={iconName}
+        title={content}
+        isSmall={true}
+        addMargin={true}
+        secondary={true}
+      />
+    );
+  };
 
   render() {
-    const { author, body, score, replies, depth, theme } = this.props;
+    const { author, body, score, replies, depth, created, theme } = this.props;
+    const formattedScore = formatNumber(score);
+    const createdDate = formatUnixTime(created);
+    const scoreElement = this._renderCommentInfo(
+      "arrow-upward",
+      formattedScore
+    );
+    const dateElement = this._renderCommentInfo("access-time", createdDate);
+
     const styles = getStyles(theme, depth);
 
     return (
@@ -20,7 +42,8 @@ class Comment extends React.PureComponent {
           <View style={styles.commentInnerContainer}>
             <View style={styles.secondaryInfoContainer}>
               <Text style={styles.commentAuthor}>{author}</Text>
-              <Text style={styles.commentScore}>↑ {score}</Text>
+              {scoreElement}
+              {dateElement}
             </View>
             {body && <HTML html={body} />}
           </View>
@@ -28,7 +51,7 @@ class Comment extends React.PureComponent {
         <FlatList
           data={replies}
           keyExtractor={this._keyExtractor}
-          renderItem={this.renderComment(theme)}
+          renderItem={this._renderComment(theme)}
         />
       </View>
     );
@@ -55,13 +78,13 @@ const getStyles = (theme, depth) =>
     },
     secondaryInfoContainer: {
       flex: 1,
-      flexDirection: "row"
+      flexDirection: "row",
+      marginTop: 12
     },
     commentAuthor: {
       color: theme.primaryText,
       fontWeight: "bold",
       fontSize: 12,
-      marginTop: 12,
       marginRight: 6
     },
     commentScore: {

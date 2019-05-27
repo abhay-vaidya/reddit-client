@@ -3,14 +3,21 @@ import { View, Text, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 import withTheme from "../utils/Theme";
 
-const IconText = ({ iconName, title, theme, isSmall, addMargin }) => {
-  const styles = getStyles(theme, isSmall, addMargin);
+const IconText = ({
+  iconName,
+  title,
+  theme,
+  isSmall,
+  addMargin,
+  secondary
+}) => {
+  const styles = getStyles(theme, isSmall, addMargin, secondary);
 
   return (
     <View style={styles.postInfoContainer}>
       <Icon
         name={iconName}
-        color={theme.primaryText}
+        color={secondary ? theme.secondaryText : theme.primaryText}
         iconStyle={styles.postInfoIcon}
         size={isSmall ? 12 : 16}
       />
@@ -19,7 +26,7 @@ const IconText = ({ iconName, title, theme, isSmall, addMargin }) => {
   );
 };
 
-const getStyles = (theme, isSmall, addMargin) =>
+const getStyles = (theme, isSmall, addMargin, secondary) =>
   StyleSheet.create({
     postInfoContainer: {
       flex: 0,
@@ -30,7 +37,7 @@ const getStyles = (theme, isSmall, addMargin) =>
     },
     postInfo: {
       fontSize: isSmall ? 12 : 16,
-      color: theme.primaryText
+      color: secondary ? theme.secondaryText : theme.primaryText
     },
     postInfoIcon: {
       marginRight: 3
