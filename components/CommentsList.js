@@ -6,7 +6,7 @@ import withTheme from "../utils/Theme";
 class CommentsList extends React.Component {
   _keyExtractor = postId => (_, index) => `${postId}-comment-${index}`;
 
-  _getEmptyListPlaceholder = styles => {
+  _renderEmptyListPlaceholder = styles => {
     return <Text style={styles.emptyListText}>{`No comments!`}</Text>;
   };
 
@@ -16,7 +16,7 @@ class CommentsList extends React.Component {
     const { postId, comments, loadingComments, theme } = this.props;
 
     const styles = getStyles(theme);
-    const emptyListPlaceholder = this._getEmptyListPlaceholder(styles);
+    const emptyListPlaceholder = this._renderEmptyListPlaceholder(styles);
 
     return (
       <View

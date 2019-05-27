@@ -12,7 +12,7 @@ class PostList extends React.Component {
 
   _keyExtractor = item => item.id;
 
-  _getEmptyListPlaceholder = styles => {
+  _renderEmptyListPlaceholder = styles => {
     return (
       <Text style={styles.emptyListText}>
         {`Hmm... there's nothing here. 🧐\nTry another subreddit!`}
@@ -20,7 +20,7 @@ class PostList extends React.Component {
     );
   };
 
-  _getPostDivider = styles => () => <Divider style={styles.divider} />;
+  _renderPostDivider = styles => () => <Divider style={styles.divider} />;
 
   toggleModal = url => {
     this.setState(prevState => {
@@ -44,7 +44,7 @@ class PostList extends React.Component {
 
     const { modalVisible, imageUrl } = this.state;
     const styles = getStyles(theme);
-    const emptyListPlaceholder = this._getEmptyListPlaceholder(styles);
+    const emptyListPlaceholder = this._renderEmptyListPlaceholder(styles);
 
     return (
       <View
@@ -65,7 +65,7 @@ class PostList extends React.Component {
           renderItem={this.renderPost}
           ListHeaderComponent={searchComponent}
           ListEmptyComponent={emptyListPlaceholder}
-          ItemSeparatorComponent={this._getPostDivider(styles)}
+          ItemSeparatorComponent={this._renderPostDivider(styles)}
           onEndReached={handleEndReached}
         />
       </View>

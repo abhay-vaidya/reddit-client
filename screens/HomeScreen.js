@@ -85,7 +85,7 @@ class HomeScreen extends React.Component {
     });
   };
 
-  _getSearchComponent = styles => {
+  _renderSearchComponent = styles => {
     return (
       <SearchBar
         onSubmitEditing={this.handleSearch}
@@ -172,7 +172,7 @@ class HomeScreen extends React.Component {
     const { posts, loadingPosts, theme } = this.props;
     const { modalVisible } = this.state;
     const styles = getStyles(theme);
-    const searchComponent = this._getSearchComponent(styles);
+    const searchComponent = this._renderSearchComponent(styles);
 
     if (loadingPosts) {
       return <Loading />;

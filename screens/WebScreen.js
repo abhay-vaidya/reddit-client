@@ -2,7 +2,7 @@ import React from "react";
 import { WebView } from "react-native";
 import { Loading } from "../components";
 
-const _getLoadingComponent = () => {
+const _renderLoadingComponent = () => {
   return <Loading />;
 };
 
@@ -11,7 +11,7 @@ export default ({ navigation }) => {
     <WebView
       startInLoadingState={true}
       source={{ uri: navigation.state.params.uri }}
-      renderLoading={_getLoadingComponent}
+      renderLoading={_renderLoadingComponent}
     />
   );
 };
