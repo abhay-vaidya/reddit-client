@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableHighlight
 } from "react-native";
+import { distanceInWordsToNow } from "date-fns";
 import { Icon, Image } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
@@ -69,7 +70,8 @@ class Post extends React.PureComponent {
   };
 
   render() {
-    const { title, author, score, numComments, subreddit, theme } = this.props;
+    const { title, created, score, numComments, subreddit, theme } = this.props;
+    const createdDate = distanceInWordsToNow(new Date(created * 1000));
     const styles = getStyles(theme);
     const thumbnailMarkup = this._getThumbnail(styles);
 
@@ -86,11 +88,29 @@ class Post extends React.PureComponent {
               <Text style={styles.postTitle}>{title}</Text>
             </View>
             <View>
-              <Text style={styles.postAuthor}>{author}</Text>
+              <Text style={styles.postSubreddit}>r/{subreddit}</Text>
               <View style={styles.secondaryInfoContainer}>
-                <Text style={styles.postInfo}>r/{subreddit}</Text>
-                <Text style={styles.postInfo}>↑ {score}</Text>
-                <Text style={styles.postInfo}>{numComments} Comments</Text>
+                <Icon
+                  name="arrow-upward"
+                  color={theme.primaryText}
+                  iconStyle={styles.postInfoIcon}
+                  size={12}
+                />
+                <Text style={styles.postInfo}>{score}</Text>
+                <Icon
+                  name="mode-comment"
+                  color={theme.primaryText}
+                  iconStyle={styles.postInfoIcon}
+                  size={12}
+                />
+                <Text style={styles.postInfo}>{numComments}</Text>
+                <Icon
+                  name="access-time"
+                  color={theme.primaryText}
+                  iconStyle={styles.postInfoIcon}
+                  size={12}
+                />
+                <Text style={styles.postInfo}>{createdDate}</Text>
               </View>
             </View>
           </View>
@@ -115,7 +135,7 @@ const getStyles = theme =>
     },
     secondaryInfoContainer: {
       flex: 1,
-      alignItems: "flex-end",
+      alignItems: "center",
       flexDirection: "row"
     },
     postTitle: {
@@ -123,15 +143,18 @@ const getStyles = theme =>
       fontWeight: "bold",
       marginBottom: 6
     },
-    postAuthor: {
+    postSubreddit: {
       color: theme.secondaryText,
       fontSize: 12,
       marginBottom: 3
     },
     postInfo: {
       color: theme.primaryText,
-      marginRight: 10,
+      marginRight: 12,
       fontSize: 12
+    },
+    postInfoIcon: {
+      marginRight: 6
     },
     thumbnail: {
       width: 60,
