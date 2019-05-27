@@ -1,83 +1,93 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import Layout from "../constants/Layout";
+import { connect } from "react-redux";
 import { Divider } from "react-native-elements";
-import HTML from "react-native-render-html";
 import withTheme from "../utils/Theme";
-import { decode } from "he";
+import { getPostComments } from "../redux/Subreddit";
+import { transformRawComments } from "../utils/RedditDataUtil";
+import { CommentsList, HTML, Loading } from "../components";
 
-const CommentsScreen = ({ navigation, theme }) => {
-  const {
-    title,
-    author,
-    score,
-    numComments,
-    subreddit,
-    selftext
-  } = navigation.getParam("props", {});
+class PostDetailsScreen extends React.Component {
+  componentDidMount() {
+    const { subreddit, id } = this._getPostDetails();
+    this.props._getPostComments(subreddit, id);
+  }
 
-  navigateToContent = (_, href) => {
-    navigation.navigate("LinkContent", { uri: href });
+  _getPostDetails = () => {
+    return this.props.navigation.getParam("props", {});
   };
 
-  const styles = getStyles(theme);
+  render() {
+    const { theme, comments, loadingComments } = this.props;
 
-  return (
-    <ScrollView style={styles.container}>
-      <View style={styles.postContainer}>
-        <View style={styles.postTextContainer}>
-          <Text style={styles.postTitle}>{title}</Text>
-          <Text style={styles.postAuthor}>{author}</Text>
-          {selftext && (
-            <HTML
-              html={decode(selftext)}
-              baseFontStyle={{ color: theme.primaryText }}
-              onLinkPress={navigateToContent}
-              imagesMaxWidth={Layout.window.width}
-            />
-          )}
-          <Divider style={styles.divider} />
-          <View style={styles.secondaryInfoContainer}>
-            <Text style={styles.postInfo}>{`r/${subreddit}`}</Text>
-            <Text style={styles.postInfo}>↑ {score}</Text>
-            <Text style={styles.postInfo}>{numComments} Comments</Text>
+    const {
+      title,
+      author,
+      score,
+      numComments,
+      subreddit,
+      selftext,
+      id
+    } = this._getPostDetails();
+
+    const styles = getStyles(theme);
+
+    if (loadingComments) {
+      return <Loading />;
+    }
+
+    return (
+      <ScrollView style={styles.postDetailsContainer}>
+        <View style={styles.postContainer}>
+          <View style={styles.postTextContainer}>
+            <Text style={styles.postTitle}>{title}</Text>
+            <Text style={styles.postAuthor}>{author}</Text>
+            {selftext && <HTML html={selftext} />}
+            <Divider />
+            <View style={styles.secondaryInfoContainer}>
+              <Text style={styles.postInfo}>{`r/${subreddit}`}</Text>
+              <Text style={styles.postInfo}>↑ {score}</Text>
+              <Text style={styles.postInfo}>{numComments} Comments</Text>
+            </View>
           </View>
-          <Divider style={styles.divider} />
+          <CommentsList
+            comments={comments}
+            loadingComments={loadingComments}
+            postId={id}
+          />
         </View>
-      </View>
-    </ScrollView>
-  );
-};
+      </ScrollView>
+    );
+  }
+}
 
 const getStyles = theme =>
   StyleSheet.create({
-    container: {
+    postDetailsContainer: {
       backgroundColor: theme.primaryBg
     },
     postContainer: {
       flex: 1,
-      flexDirection: "row",
-      backgroundColor: theme.primaryBg,
-      padding: 16,
-      margin: 10
+      flexDirection: "column",
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+      backgroundColor: theme.primaryBg
     },
     postTextContainer: {
       flex: 1,
       flexDirection: "column",
       justifyContent: "space-between"
     },
-    divider: {
-      marginVertical: 10
-    },
     secondaryInfoContainer: {
       flex: 1,
+      paddingVertical: 12,
       justifyContent: "space-around",
       alignItems: "flex-end",
       flexDirection: "row"
     },
     postTitle: {
       fontWeight: "bold",
-      fontSize: 20,
+      fontSize: 16,
       marginBottom: 6,
       color: theme.primaryText
     },
@@ -88,9 +98,31 @@ const getStyles = theme =>
     },
     postInfo: {
       marginRight: 10,
-      fontSize: 18,
+      fontSize: 16,
       color: theme.primaryText
     }
   });
 
-export default withTheme(CommentsScreen);
+const mapStateToProps = state => {
+  const { comments, loadingComments } = state.subreddit;
+  const transformedComments = transformRawComments(comments);
+  return {
+    comments: transformedComments,
+    loadingComments
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    _getPostComments: (subreddit, postId) => {
+      return dispatch(getPostComments(subreddit, postId));
+    }
+  };
+};
+
+export default withTheme(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(PostDetailsScreen)
+);

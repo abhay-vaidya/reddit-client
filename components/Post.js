@@ -151,4 +151,4 @@ const getStyles = theme =>
     }
   });
 
-export default withTheme(withNavigation(Post));
+export default withNavigation(withTheme(Post));

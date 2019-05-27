@@ -6,7 +6,7 @@ import Defaults from "../constants/Defaults";
 import { connect } from "react-redux";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { PostList, Loading } from "../components";
-import { convertRawPosts } from "../utils/RedditDataUtil";
+import { transformRawPosts } from "../utils/RedditDataUtil";
 import SortEnum from "../constants/Sorting";
 
 import {
@@ -54,11 +54,11 @@ class HomeScreen extends React.Component {
   };
 
   getNextPosts = () => {
-    const { subreddit, sort, loading } = this.props;
+    const { subreddit, sort, loadingPosts } = this.props;
     const { posts } = this.props;
     const name = posts[posts.length - 1].name;
 
-    !loading && this.props._getNextSubredditPosts(subreddit, sort, name);
+    !loadingPosts && this.props._getNextSubredditPosts(subreddit, sort, name);
   };
 
   componentDidMount() {
@@ -137,12 +137,12 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    const { posts, loading, theme } = this.props;
+    const { posts, loadingPosts, theme } = this.props;
     const { modalVisible } = this.state;
     const styles = getStyles(theme);
     const searchComponent = this._getSearchComponent(styles);
 
-    if (loading) {
+    if (loadingPosts) {
       return <Loading />;
     }
 
@@ -151,7 +151,7 @@ class HomeScreen extends React.Component {
         <PostList
           modalVisible={modalVisible}
           posts={posts}
-          loading={loading}
+          loading={loadingPosts}
           handleRefresh={this.handleRefresh}
           searchComponent={searchComponent}
           handleEndReached={this.getNextPosts}
@@ -179,13 +179,13 @@ const getStyles = theme =>
   });
 
 const mapStateToProps = state => {
-  const { subreddit, sort, loading, posts } = state.subreddit;
-  let newPosts = convertRawPosts(posts);
+  const { subreddit, sort, loadingPosts, posts } = state.subreddit;
+  let newPosts = transformRawPosts(posts);
   return {
     subreddit,
     sort,
     posts: newPosts,
-    loading
+    loadingPosts
   };
 };
 

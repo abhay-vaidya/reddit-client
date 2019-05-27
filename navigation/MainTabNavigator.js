@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { Button } from "react-native-elements";
 import { createStackNavigator } from "react-navigation";
-import TabBarIcon from "../components/TabBarIcon";
+import { TabBarIcon } from "../components";
 
 import store from "../redux/Store";
 import { toggleTheme } from "../redux/Global";
