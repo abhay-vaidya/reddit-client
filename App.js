@@ -5,8 +5,13 @@ import { Provider } from "react-redux";
 import store from "./redux/Store";
 
 import AppNavigator from "./navigation/AppNavigator";
+import { initializeMoment } from "./utils/Formatting";
 
 export default class App extends React.Component {
+  componentDidMount() {
+    initializeMoment();
+  }
+
   render() {
     return (
       <ActionSheetProvider>

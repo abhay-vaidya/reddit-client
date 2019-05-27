@@ -92,6 +92,7 @@ class HomeScreen extends React.Component {
         onChangeText={this.updateSearch}
         value={this.state.search}
         platform="ios"
+        autoCorrect={false}
         inputStyle={styles.searchInput}
         inputContainerStyle={styles.searchInputContainer}
         placeholder="Search for a subreddit..."

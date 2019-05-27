@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   TouchableHighlight
 } from "react-native";
-import { distanceInWordsToNow } from "date-fns";
 import { Icon, Image } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
+import { formatNumber, formatUnixTime } from "../utils/Formatting";
 
 class Post extends React.PureComponent {
   _getThumbnail = styles => {
@@ -71,7 +71,9 @@ class Post extends React.PureComponent {
 
   render() {
     const { title, created, score, numComments, subreddit, theme } = this.props;
-    const createdDate = distanceInWordsToNow(new Date(created * 1000));
+    const createdDate = formatUnixTime(created);
+    const formattedScore = formatNumber(score);
+    const formattedNumComments = formatNumber(numComments);
     const styles = getStyles(theme);
     const thumbnailMarkup = this._getThumbnail(styles);
 
@@ -96,14 +98,14 @@ class Post extends React.PureComponent {
                   iconStyle={styles.postInfoIcon}
                   size={12}
                 />
-                <Text style={styles.postInfo}>{score}</Text>
+                <Text style={styles.postInfo}>{formattedScore}</Text>
                 <Icon
                   name="mode-comment"
                   color={theme.primaryText}
                   iconStyle={styles.postInfoIcon}
                   size={12}
                 />
-                <Text style={styles.postInfo}>{numComments}</Text>
+                <Text style={styles.postInfo}>{formattedNumComments}</Text>
                 <Icon
                   name="access-time"
                   color={theme.primaryText}
@@ -154,7 +156,7 @@ const getStyles = theme =>
       fontSize: 12
     },
     postInfoIcon: {
-      marginRight: 6
+      marginRight: 3
     },
     thumbnail: {
       width: 60,
