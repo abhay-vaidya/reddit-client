@@ -1,8 +1,6 @@
 import Defaults from "../constants/Defaults";
 
 // Constants
-export const SET_SUBREDDIT = "reddit-client/subreddit/SET";
-
 export const GET_SUBREDDIT_POSTS = "reddit-client/posts/LOAD";
 export const GET_SUBREDDIT_POSTS_SUCCESS = "reddit-client/posts/LOAD_SUCCESS";
 export const GET_SUBREDDIT_POSTS_FAIL = "reddit-client/posts/LOAD_FAIL";
@@ -30,12 +28,15 @@ export default function reducer(
   action
 ) {
   switch (action.type) {
-    case SET_SUBREDDIT:
-      return { ...state, subreddit: action.subreddit };
     case GET_POST_COMMENTS:
       return { ...state, loadingComments: true };
     case GET_SUBREDDIT_POSTS:
-      return { ...state, loadingPosts: true };
+      return {
+        ...state,
+        subreddit: action.subreddit,
+        sort: action.sort,
+        loadingPosts: true
+      };
     case GET_SUBREDDIT_POSTS_SUCCESS:
       return {
         ...state,
@@ -73,23 +74,29 @@ export default function reducer(
 }
 
 // Action creators
-export function getSubredditPosts(subreddit, sort) {
+export function getSubredditPosts(subreddit, sort, timeRange) {
   return {
     type: GET_SUBREDDIT_POSTS,
+    subreddit,
+    sort,
     payload: {
       request: {
-        url: `/r/${subreddit}/${sort}.json`
+        url: `/r/${subreddit}/${sort}.json?${timeRange ? `t=${timeRange}` : ""}`
       }
     }
   };
 }
 
-export function getNextSubredditPosts(subreddit, sort, lastPostId) {
+export function getNextSubredditPosts(subreddit, sort, lastPostId, timeRange) {
   return {
     type: GET_NEXT_SUBREDDIT_POSTS,
+    subreddit,
+    sort,
     payload: {
       request: {
-        url: `/r/${subreddit}/${sort}.json?after=${lastPostId}`
+        url: `/r/${subreddit}/${sort}.json?after=${lastPostId}&${
+          timeRange ? `t=${timeRange}` : ""
+        }`
       }
     }
   };
@@ -103,12 +110,5 @@ export function getPostComments(subreddit, postId) {
         url: `/r/${subreddit}/comments/${postId}.json?limit=25`
       }
     }
-  };
-}
-
-export function setSubreddit(subreddit) {
-  return {
-    type: SET_SUBREDDIT,
-    subreddit
   };
 }

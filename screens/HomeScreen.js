@@ -7,13 +7,9 @@ import { connect } from "react-redux";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { PostList, Loading } from "../components";
 import { transformRawPosts } from "../utils/RedditDataUtil";
-import SortEnum from "../constants/Sorting";
+import { SORT_OPTIONS, TIME_RANGES } from "../constants/Sorting";
 
-import {
-  getSubredditPosts,
-  getNextSubredditPosts,
-  setSubreddit
-} from "../redux/Subreddit";
+import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
 
 @connectActionSheet
 class HomeScreen extends React.Component {
@@ -83,10 +79,9 @@ class HomeScreen extends React.Component {
   handleSearch = e => {
     const searchTerm = e.nativeEvent.text.trim().toLowerCase();
     const { sort } = this.props;
-    this.props._setSubreddit(searchTerm);
     this.props._getSubredditPosts(searchTerm, sort).then(() => {
       this.props.navigation.setParams({ title: searchTerm, sort });
-      this.setState({ search: "" });
+      this.updateSearch("");
     });
   };
 
@@ -105,6 +100,37 @@ class HomeScreen extends React.Component {
     );
   };
 
+  _onOpenTimeRangeActionSheet = sortName => {
+    const {
+      showActionSheetWithOptions,
+      _getSubredditPosts,
+      subreddit,
+      navigation
+    } = this.props;
+    const options = [...TIME_RANGES, "Cancel"];
+    const cancelButtonIndex = TIME_RANGES.length;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        title: "Sort by..."
+      },
+      buttonIndex => {
+        if (buttonIndex < options.length - 1) {
+          const selectedTimeRange = TIME_RANGES[buttonIndex].toLowerCase();
+          _getSubredditPosts(subreddit, sortName, selectedTimeRange).then(
+            () => {
+              navigation.setParams({
+                title: subreddit,
+                sort: `${sortName}/${selectedTimeRange}`
+              });
+            }
+          );
+        }
+      }
+    );
+  };
+
   _onOpenSortActionSheet = () => {
     const {
       showActionSheetWithOptions,
@@ -112,8 +138,8 @@ class HomeScreen extends React.Component {
       subreddit,
       navigation
     } = this.props;
-    const options = [...Object.values(SortEnum), "Cancel"];
-    const cancelButtonIndex = 6;
+    const options = [...SORT_OPTIONS.map(option => option.name), "Cancel"];
+    const cancelButtonIndex = SORT_OPTIONS.length;
     const title = "Sort by...";
 
     showActionSheetWithOptions(
@@ -123,14 +149,19 @@ class HomeScreen extends React.Component {
         title
       },
       buttonIndex => {
-        const selectedSort = options[buttonIndex].toLowerCase();
         if (buttonIndex < options.length - 1) {
-          _getSubredditPosts(subreddit, selectedSort).then(() => {
-            navigation.setParams({
-              title: subreddit,
-              sort: selectedSort
+          const selectedSort = SORT_OPTIONS[buttonIndex];
+          const sortName = selectedSort.name.toLowerCase();
+          if (selectedSort.hasTimeRange) {
+            this._onOpenTimeRangeActionSheet(sortName);
+          } else {
+            _getSubredditPosts(subreddit, sortName).then(() => {
+              navigation.setParams({
+                title: subreddit,
+                sort: sortName
+              });
             });
-          });
+          }
         }
       }
     );
@@ -191,14 +222,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    _getSubredditPosts: (subreddit, sort) => {
-      return dispatch(getSubredditPosts(subreddit, sort));
+    _getSubredditPosts: (subreddit, sort, timeRange) => {
+      return dispatch(getSubredditPosts(subreddit, sort, timeRange));
     },
-    _getNextSubredditPosts: (subreddit, sort, lastPostName) => {
-      return dispatch(getNextSubredditPosts(subreddit, sort, lastPostName));
-    },
-    _setSubreddit: subreddit => {
-      dispatch(setSubreddit(subreddit));
+    _getNextSubredditPosts: (subreddit, sort, lastPostName, timeRange) => {
+      return dispatch(
+        getNextSubredditPosts(subreddit, sort, lastPostName, timeRange)
+      );
     }
   };
 };
