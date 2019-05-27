@@ -113,18 +113,9 @@ const getStyles = theme =>
       fontSize: 16,
       marginBottom: 10
     },
-    postInfoContainer: {
-      flex: 0,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center"
-    },
     postInfo: {
       fontSize: 16,
       color: theme.primaryText
-    },
-    postInfoIcon: {
-      marginRight: 3
     }
   });
 

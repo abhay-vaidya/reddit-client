@@ -86,11 +86,6 @@ const getStyles = (theme, depth) =>
       fontWeight: "bold",
       fontSize: 12,
       marginRight: 6
-    },
-    commentScore: {
-      color: theme.secondaryText,
-      fontSize: 12,
-      marginTop: 12
     }
   });
 
