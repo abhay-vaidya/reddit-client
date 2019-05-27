@@ -82,7 +82,15 @@ class Post extends React.PureComponent {
   };
 
   render() {
-    const { title, created, score, numComments, subreddit, theme } = this.props;
+    const {
+      title,
+      created,
+      author,
+      score,
+      numComments,
+      subreddit,
+      theme
+    } = this.props;
     const createdDate = formatUnixTime(created);
     const formattedScore = formatNumber(score);
     const formattedNumComments = formatNumber(numComments);
@@ -109,8 +117,9 @@ class Post extends React.PureComponent {
               <Text style={styles.postTitle}>{title}</Text>
             </View>
             <View>
-              <Text style={styles.postSubreddit}>r/{subreddit}</Text>
+              <Text style={styles.postAuthor}>{author}</Text>
               <View style={styles.secondaryInfoContainer}>
+                <Text style={styles.postSubreddit}>r/{subreddit}</Text>
                 {scoreElement}
                 {commentsElement}
                 {dateElement}
@@ -147,6 +156,11 @@ const getStyles = theme =>
       marginBottom: 6
     },
     postSubreddit: {
+      fontSize: 12,
+      marginRight: 10,
+      color: theme.primaryText
+    },
+    postAuthor: {
       color: theme.secondaryText,
       fontSize: 12,
       marginBottom: 3
