@@ -25,7 +25,7 @@ export function transformRawPosts(rawPosts) {
     const postType = isImage ? "pic" : is_self ? "self" : "link";
 
     const newThumbnail =
-      thumbnail.match(/^(default|self|spoiler)$/) !== null
+      thumbnail.match(/^(default|self|spoiler|nsfw)$/) !== null
         ? undefined
         : thumbnail;
 
