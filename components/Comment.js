@@ -41,8 +41,6 @@ const getStyles = (theme, depth) =>
   StyleSheet.create({
     commentContainer: {
       backgroundColor: theme.primaryBg,
-      paddingVertical: 12,
-      paddingRight: 12,
       marginLeft: 10 * depth,
       borderTopWidth: 1,
       borderTopColor: theme.secondaryBg
@@ -63,13 +61,13 @@ const getStyles = (theme, depth) =>
       color: theme.primaryText,
       fontWeight: "bold",
       fontSize: 12,
-      marginBottom: 3,
+      marginTop: 12,
       marginRight: 6
     },
     commentScore: {
       color: theme.secondaryText,
       fontSize: 12,
-      marginBottom: 3
+      marginTop: 12
     }
   });
 
