@@ -5,7 +5,7 @@ import { Divider, Icon } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { getPostComments } from "../redux/Subreddit";
 import { transformRawComments } from "../utils/RedditDataUtil";
-import { CommentsList, HTML, Loading } from "../components";
+import { CommentsList, HTML, Loading, IconText } from "../components";
 import { formatNumber, formatUnixTime } from "../utils/Formatting";
 
 class PostDetailsScreen extends React.Component {
@@ -16,6 +16,10 @@ class PostDetailsScreen extends React.Component {
 
   _getPostDetails = () => {
     return this.props.navigation.getParam("props", {});
+  };
+
+  _renderPostInfo = (iconName, content) => {
+    return <IconText iconName={iconName} title={content} />;
   };
 
   render() {
@@ -37,6 +41,13 @@ class PostDetailsScreen extends React.Component {
     const formattedScore = formatNumber(score);
     const formattedNumComments = formatNumber(numComments);
 
+    const scoreElement = this._renderPostInfo("arrow-upward", formattedScore);
+    const commentsElement = this._renderPostInfo(
+      "mode-comment",
+      formattedNumComments
+    );
+    const dateElement = this._renderPostInfo("access-time", createdDate);
+
     if (loadingComments) {
       return <Loading />;
     }
@@ -51,33 +62,9 @@ class PostDetailsScreen extends React.Component {
             <Divider />
             <View style={styles.secondaryInfoContainer}>
               <Text style={styles.postInfo}>{`r/${subreddit}`}</Text>
-              <View style={styles.postInfoContainer}>
-                <Icon
-                  name="arrow-upward"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={16}
-                />
-                <Text style={styles.postInfo}>{formattedScore}</Text>
-              </View>
-              <View style={styles.postInfoContainer}>
-                <Icon
-                  name="mode-comment"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={16}
-                />
-                <Text style={styles.postInfo}>{formattedNumComments}</Text>
-              </View>
-              <View style={styles.postInfoContainer}>
-                <Icon
-                  name="access-time"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={16}
-                />
-                <Text style={styles.postInfo}>{createdDate}</Text>
-              </View>
+              {scoreElement}
+              {commentsElement}
+              {dateElement}
             </View>
           </View>
           <CommentsList

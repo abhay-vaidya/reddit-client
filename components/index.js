@@ -6,6 +6,7 @@ import TabBarIcon from "./TabBarIcon";
 import Comment from "./Comment";
 import CommentsList from "./CommentsList";
 import HTML from "./HTML";
+import IconText from "./IconText";
 
 export {
   ImageModal,
@@ -15,5 +16,6 @@ export {
   TabBarIcon,
   Comment,
   CommentsList,
-  HTML
+  HTML,
+  IconText
 };

@@ -7,12 +7,13 @@ import {
   TouchableHighlight
 } from "react-native";
 import { Icon, Image } from "react-native-elements";
+import IconText from "./IconText";
 import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
 import { formatNumber, formatUnixTime } from "../utils/Formatting";
 
 class Post extends React.PureComponent {
-  _getThumbnail = styles => {
+  _renderThumbnail = styles => {
     const {
       thumbnail,
       postType,
@@ -69,13 +70,31 @@ class Post extends React.PureComponent {
     this.props.navigation.navigate("PostDetails", { props: this.props });
   };
 
+  _renderPostInfo = (iconName, content) => {
+    return (
+      <IconText
+        iconName={iconName}
+        title={content}
+        isSmall={true}
+        addMargin={true}
+      />
+    );
+  };
+
   render() {
     const { title, created, score, numComments, subreddit, theme } = this.props;
     const createdDate = formatUnixTime(created);
     const formattedScore = formatNumber(score);
     const formattedNumComments = formatNumber(numComments);
     const styles = getStyles(theme);
-    const thumbnailMarkup = this._getThumbnail(styles);
+    const thumbnailElement = this._renderThumbnail(styles);
+
+    const scoreElement = this._renderPostInfo("arrow-upward", formattedScore);
+    const commentsElement = this._renderPostInfo(
+      "mode-comment",
+      formattedNumComments
+    );
+    const dateElement = this._renderPostInfo("access-time", createdDate);
 
     return (
       <TouchableHighlight
@@ -83,7 +102,7 @@ class Post extends React.PureComponent {
         underlayColor={theme.secondaryBg}
       >
         <View style={styles.postContainer}>
-          {thumbnailMarkup}
+          {thumbnailElement}
 
           <View style={styles.postTextContainer}>
             <View>
@@ -92,27 +111,9 @@ class Post extends React.PureComponent {
             <View>
               <Text style={styles.postSubreddit}>r/{subreddit}</Text>
               <View style={styles.secondaryInfoContainer}>
-                <Icon
-                  name="arrow-upward"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={12}
-                />
-                <Text style={styles.postInfo}>{formattedScore}</Text>
-                <Icon
-                  name="mode-comment"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={12}
-                />
-                <Text style={styles.postInfo}>{formattedNumComments}</Text>
-                <Icon
-                  name="access-time"
-                  color={theme.primaryText}
-                  iconStyle={styles.postInfoIcon}
-                  size={12}
-                />
-                <Text style={styles.postInfo}>{createdDate}</Text>
+                {scoreElement}
+                {commentsElement}
+                {dateElement}
               </View>
             </View>
           </View>
@@ -149,14 +150,6 @@ const getStyles = theme =>
       color: theme.secondaryText,
       fontSize: 12,
       marginBottom: 3
-    },
-    postInfo: {
-      color: theme.primaryText,
-      marginRight: 12,
-      fontSize: 12
-    },
-    postInfoIcon: {
-      marginRight: 3
     },
     thumbnail: {
       width: 60,
