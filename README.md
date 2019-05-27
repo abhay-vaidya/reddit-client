@@ -7,7 +7,10 @@ Currently using anonymous Reddit API meaning user can browse content, but not in
 
 It's always changing, but here's what it looks like as of May 27:
 
-![App Home](https://user-images.githubusercontent.com/2274254/58435823-70586d00-8090-11e9-9f93-189daf9abed6.png)
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/2274254/58435823-70586d00-8090-11e9-9f93-189daf9abed6.png" width="45%" />
+  <img src="https://user-images.githubusercontent.com/2274254/58435888-c3cabb00-8090-11e9-9242-4cf931758049.png" width="45%" /> 
+</p>
 
 
 ## Development
