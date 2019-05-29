@@ -169,10 +169,11 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    const { posts, loadingPosts, theme } = this.props;
+    const { posts, loadingPosts, theme, subreddit } = this.props;
     const { modalVisible } = this.state;
     const styles = getStyles(theme);
     const searchComponent = this._renderSearchComponent(styles);
+    const isGenericSubreddit = subreddit.match(/^(popular|all)$/) !== null;
 
     if (loadingPosts) {
       return <Loading />;
@@ -187,6 +188,7 @@ class HomeScreen extends React.Component {
           handleRefresh={this.handleRefresh}
           searchComponent={searchComponent}
           handleEndReached={this.getNextPosts}
+          isGenericSubreddit={isGenericSubreddit}
         />
       </View>
     );

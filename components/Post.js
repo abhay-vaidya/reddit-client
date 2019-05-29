@@ -66,43 +66,61 @@ class Post extends React.PureComponent {
     );
   };
 
-  navigateToPostDetails = () => {
-    this.props.navigation.navigate("PostDetails", { props: this.props });
-  };
-
-  _renderPostInfo = (iconName, content) => {
+  _renderSinglePostInfo = (iconName, content) => {
     return (
       <IconText
         iconName={iconName}
         title={content}
         isSmall={true}
         addMargin={true}
+        secondary={true}
       />
     );
   };
 
+  _renderPostInfo = (score, numComments, date, styles) => {
+    const { subreddit, author, isGenericSubreddit } = this.props;
+
+    const scoreElement = this._renderSinglePostInfo("arrow-upward", score);
+    const commentsElement = this._renderSinglePostInfo(
+      "chat-bubble-outline",
+      numComments
+    );
+    const dateElement = this._renderSinglePostInfo("access-time", date);
+    const additionalInfo = isGenericSubreddit
+      ? `r/${subreddit}`
+      : `u/${author}`;
+
+    return (
+      <View>
+        <View style={styles.secondaryInfoContainer}>
+          <Text style={styles.postAdditionalInfo}>{additionalInfo}</Text>
+          {scoreElement}
+          {commentsElement}
+          {dateElement}
+        </View>
+      </View>
+    );
+  };
+
+  navigateToPostDetails = () => {
+    this.props.navigation.navigate("PostDetails", { props: this.props });
+  };
+
   render() {
-    const {
-      title,
-      created,
-      author,
-      score,
-      numComments,
-      subreddit,
-      theme
-    } = this.props;
+    const { title, created, score, numComments, theme } = this.props;
     const createdDate = formatUnixTime(created);
     const formattedScore = formatNumber(score);
     const formattedNumComments = formatNumber(numComments);
     const styles = getStyles(theme);
     const thumbnailElement = this._renderThumbnail(styles);
 
-    const scoreElement = this._renderPostInfo("arrow-upward", formattedScore);
-    const commentsElement = this._renderPostInfo(
-      "mode-comment",
-      formattedNumComments
+    const postInfoElement = this._renderPostInfo(
+      formattedScore,
+      formattedNumComments,
+      createdDate,
+      styles
     );
-    const dateElement = this._renderPostInfo("access-time", createdDate);
 
     return (
       <TouchableHighlight
@@ -111,20 +129,11 @@ class Post extends React.PureComponent {
       >
         <View style={styles.postContainer}>
           {thumbnailElement}
-
           <View style={styles.postTextContainer}>
             <View>
               <Text style={styles.postTitle}>{title}</Text>
             </View>
-            <View>
-              <Text style={styles.postAuthor}>{author}</Text>
-              <View style={styles.secondaryInfoContainer}>
-                <Text style={styles.postSubreddit}>r/{subreddit}</Text>
-                {scoreElement}
-                {commentsElement}
-                {dateElement}
-              </View>
-            </View>
+            {postInfoElement}
           </View>
         </View>
       </TouchableHighlight>
@@ -138,7 +147,8 @@ const getStyles = theme =>
       flex: 1,
       flexDirection: "row",
       backgroundColor: theme.primaryBg,
-      padding: 16
+      paddingHorizontal: 16,
+      paddingVertical: 12
     },
     postTextContainer: {
       flex: 1,
@@ -151,31 +161,26 @@ const getStyles = theme =>
       flexDirection: "row"
     },
     postTitle: {
+      fontSize: 14,
       color: theme.primaryText,
-      fontWeight: "bold",
       marginBottom: 6
     },
-    postSubreddit: {
+    postAdditionalInfo: {
       fontSize: 12,
       marginRight: 10,
-      color: theme.primaryText
-    },
-    postAuthor: {
-      color: theme.secondaryText,
-      fontSize: 12,
-      marginBottom: 3
+      color: theme.secondaryText
     },
     thumbnail: {
-      width: 60,
-      height: 60,
+      width: 55,
+      height: 55,
       borderRadius: 5,
-      marginRight: 12
+      marginRight: 16
     },
     defaultThumb: {
-      width: 60,
-      height: 60,
+      width: 55,
+      height: 55,
       borderRadius: 5,
-      marginRight: 12,
+      marginRight: 16,
       flex: 0,
       alignItems: "center",
       justifyContent: "center",

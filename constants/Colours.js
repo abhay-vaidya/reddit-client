@@ -4,7 +4,7 @@ const light = {
   primaryBg: "white",
   primaryText: "black",
   secondaryBg: "#E0E0E0",
-  secondaryText: "#9E9E9E",
+  secondaryText: "#7F7F7F",
   externalLink: "#2B6CB0"
 };
 
@@ -14,7 +14,7 @@ const dark = {
   primaryBg: "black",
   primaryText: "white",
   secondaryBg: "#212121",
-  secondaryText: "#616161",
+  secondaryText: "#7F7F7F",
   externalLink: "#63B3ED"
 };
 

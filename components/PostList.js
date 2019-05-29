@@ -29,7 +29,11 @@ class PostList extends React.Component {
   };
 
   renderPost = ({ item }) => (
-    <Post imageModalToggler={this.toggleModal} {...item} />
+    <Post
+      imageModalToggler={this.toggleModal}
+      isGenericSubreddit={this.props.isGenericSubreddit}
+      {...item}
+    />
   );
 
   render() {

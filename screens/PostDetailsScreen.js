@@ -43,7 +43,7 @@ class PostDetailsScreen extends React.Component {
 
     const scoreElement = this._renderPostInfo("arrow-upward", formattedScore);
     const commentsElement = this._renderPostInfo(
-      "mode-comment",
+      "chat-bubble-outline",
       formattedNumComments
     );
     const dateElement = this._renderPostInfo("access-time", createdDate);

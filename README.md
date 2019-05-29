@@ -6,11 +6,11 @@ Used as a playground to learn React Native.
 
 Currently using anonymous Reddit API meaning user can browse content, but not interact with it (upvote, comment, post, etc.). Hoping to integrate the actual API at some point in the near future.
 
-It's always changing, but here's what it looks like as of May 27:
+It's always changing, but here's what it looks like as of May 29:
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/2274254/58435823-70586d00-8090-11e9-9f93-189daf9abed6.png" width="45%" />
-  <img src="https://user-images.githubusercontent.com/2274254/58437780-861e6000-8099-11e9-958e-ba7977c01eda.png" width="45%" /> 
+  <img src="https://user-images.githubusercontent.com/2274254/58569994-2a70e580-8205-11e9-859b-bdf0145028c0.png" width="45%" />
+  <img src="https://user-images.githubusercontent.com/2274254/58570069-4a080e00-8205-11e9-8673-7b89ec4b66ed.png" width="45%" /> 
 </p>
 
 ## Development
