@@ -43,15 +43,15 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
 - Tap post to view self post text
 - Dark/Light mode toggle
 - Changing post sorting
+- Viewing comments (partial support limited to 25 comments)
 
 ## What's Missing
 
 A lot...
 
 - As mentioned before, any sort of interactions with Reddit itself
-- Viewing comments
-- Viewing gifs/videos
-- Testing
+- Viewing gifs/videos without having to visit site
+- Unit and other forms of testing
+- Better error handling
 - App icon and other assets
-- Error handling
 - Likely any other feature of your favourite Reddit client 😅
