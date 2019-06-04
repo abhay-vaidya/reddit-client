@@ -9,7 +9,7 @@ import { CommentsList, HTML, Loading, IconText } from "../components";
 import { formatNumber, formatUnixTime } from "../utils/Formatting";
 
 class PostDetailsScreen extends React.Component {
-  static navigationOptions = ({ _, screenProps }) => {
+  static navigationOptions = ({ screenProps }) => {
     const { theme, handleThemeToggle } = screenProps;
 
     return {
