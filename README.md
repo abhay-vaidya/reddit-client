@@ -45,13 +45,6 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
 - Changing post sorting
 - Viewing comments (partial support limited to 25 comments)
 
-## What's Missing
+## What's Next
 
-A lot...
-
-- As mentioned before, any sort of interactions with Reddit itself
-- Viewing gifs/videos without having to visit site
-- Unit and other forms of testing
-- Better error handling
-- App icon and other assets
-- Likely any other feature of your favourite Reddit client 😅
+Check out the [issues board](https://github.com/abhay-vaidya/reddit-client/issues) to see what work has been prioritized
