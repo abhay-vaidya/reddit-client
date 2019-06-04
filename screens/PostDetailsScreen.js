@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { connect } from "react-redux";
-import { Divider, Icon } from "react-native-elements";
+import { Divider, Button } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { getPostComments } from "../redux/Subreddit";
 import { transformRawComments } from "../utils/RedditDataUtil";
@@ -9,6 +9,29 @@ import { CommentsList, HTML, Loading, IconText } from "../components";
 import { formatNumber, formatUnixTime } from "../utils/Formatting";
 
 class PostDetailsScreen extends React.Component {
+  static navigationOptions = ({ _, screenProps }) => {
+    const { theme, handleThemeToggle } = screenProps;
+
+    return {
+      headerStyle: {
+        backgroundColor: theme.primary,
+        borderBottomWidth: 0
+      },
+      headerTintColor: theme.accent,
+      headerRight: (
+        <Button
+          type="clear"
+          onPress={handleThemeToggle}
+          icon={{
+            name: "brightness-medium",
+            size: 18,
+            color: theme.accent
+          }}
+        />
+      )
+    };
+  };
+
   componentDidMount() {
     const { subreddit, id } = this._getPostDetails();
     this.props._getPostComments(subreddit, id);
