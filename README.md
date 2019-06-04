@@ -47,4 +47,4 @@ It has only been tested on iOS (X series) so far, not sure how well it works on 
 
 ## What's Next
 
-Check out the [issues board](https://github.com/abhay-vaidya/reddit-client/issues) to see what work has been prioritized
+Check out the [project board](https://github.com/abhay-vaidya/reddit-client/projects/1) to see what work has been prioritized.
