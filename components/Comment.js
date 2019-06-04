@@ -10,7 +10,7 @@ import withTheme from "../utils/Theme";
 class Comment extends React.PureComponent {
   _keyExtractor = item => item.id;
 
-  _renderComment = theme => ({ item }) => <Comment {...item} theme={theme} />;
+  _renderComment = ({ item }) => <Comment {...item} theme={this.props.theme} />;
 
   _renderCommentInfo = (iconName, content) => {
     return (
@@ -51,7 +51,8 @@ class Comment extends React.PureComponent {
         <FlatList
           data={replies}
           keyExtractor={this._keyExtractor}
-          renderItem={this._renderComment(theme)}
+          renderItem={this._renderComment}
+          extraData={this.props}
         />
       </View>
     );
