@@ -15,17 +15,20 @@ It's always changing, but here's what it looks like as of May 29:
 
 ## Development
 
+### Requirements
+ - [Node](https://nodejs.org/en/download/current/)
+ - [Expo CLI](https://docs.expo.io/versions/latest/workflow/expo-cli/)
+
 ```
-git clone https://github.com/abhay-vaidya/reddit-client.git
-
-npm install -g expo-cli
-
-cd reddit-client
-
+# Install dependencies the first time
 npm install
 
+# Run the app
 npm start
 ```
+You can download the Expo client on your phone or use the XCode Simulator.
+
+If you're using a Mac, I would also highly suggest the [React Native Debugger](https://github.com/jhen0409/react-native-debugger).
 
 ## Compatibility
 
