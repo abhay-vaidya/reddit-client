@@ -7,6 +7,7 @@ import Comment from "./Comment";
 import CommentsList from "./CommentsList";
 import HTML from "./HTML";
 import IconText from "./IconText";
+import Search from "./Search";
 
 export {
   ImageModal,
@@ -17,5 +18,6 @@ export {
   Comment,
   CommentsList,
   HTML,
-  IconText
+  IconText,
+  Search
 };

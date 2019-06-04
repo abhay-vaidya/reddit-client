@@ -17,6 +17,7 @@
     "axios": "^0.18.1",
     "expo": "^32.0.0",
     "he": "^1.2.0",
+    "hoist-non-react-statics": "^3.3.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "numeral": "^2.0.6",
