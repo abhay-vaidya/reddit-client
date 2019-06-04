@@ -9,7 +9,7 @@ const light = {
 };
 
 const dark = {
-  primary: "#1A202C",
+  primary: "#212121",
   accent: "white",
   primaryBg: "black",
   primaryText: "white",
