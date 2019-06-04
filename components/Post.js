@@ -11,37 +11,30 @@ import IconText from "./IconText";
 import withTheme from "../utils/Theme";
 import { withNavigation } from "react-navigation";
 import { formatNumber, formatUnixTime } from "../utils/Formatting";
+import { WebBrowser } from "expo";
 
 class Post extends React.PureComponent {
   _renderThumbnail = styles => {
-    const {
-      thumbnail,
-      postType,
-      navigation,
-      url,
-      imageModalToggler,
-      theme
-    } = this.props;
+    const { thumbnail, postType, url, imageModalToggler, theme } = this.props;
 
-    const navigateToContent = () =>
-      navigation.navigate("LinkContent", { uri: url });
+    const _navigateToContent = () => {
+      WebBrowser.openBrowserAsync(url);
+    };
 
     /* If there is no thumbnail return a default one with icon
        depending on if the type is a link or self post
     */
-    const defaultThumb = (
-      <TouchableOpacity onPress={navigateToContent}>
-        <View style={styles.defaultThumb}>
-          <Icon
-            name={postType === "self" ? "subject" : "link"}
-            color={theme.secondaryText}
-          />
-        </View>
-      </TouchableOpacity>
-    );
-
     if (!thumbnail) {
-      return defaultThumb;
+      return (
+        <TouchableOpacity onPress={_navigateToContent}>
+          <View style={styles.defaultThumb}>
+            <Icon
+              name={postType === "self" ? "subject" : "link"}
+              color={theme.secondaryText}
+            />
+          </View>
+        </TouchableOpacity>
+      );
     }
 
     /* If the type is an image, toggle the modal when it's pressed, otherwise
@@ -57,7 +50,7 @@ class Post extends React.PureComponent {
     );
 
     const thumbailPressHandler =
-      postType === "pic" ? () => imageModalToggler(url) : navigateToContent;
+      postType === "pic" ? () => imageModalToggler(url) : _navigateToContent;
 
     return (
       <TouchableOpacity onPress={thumbailPressHandler}>

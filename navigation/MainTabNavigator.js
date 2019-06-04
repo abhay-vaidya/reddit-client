@@ -8,12 +8,11 @@ import store from "../redux/Store";
 import { toggleTheme } from "../redux/Global";
 
 import Defaults from "../constants/Defaults";
-import { HomeScreen, WebScreen, PostDetailsScreen } from "../screens";
+import { HomeScreen, PostDetailsScreen } from "../screens";
 
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    LinkContent: WebScreen,
     PostDetails: PostDetailsScreen
   },
   {
