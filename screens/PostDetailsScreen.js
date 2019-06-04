@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { connect } from "react-redux";
-import { Divider, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
 import withTheme from "../utils/Theme";
 import { getPostComments } from "../redux/Subreddit";
 import { transformRawComments } from "../utils/RedditDataUtil";
@@ -82,7 +82,6 @@ class PostDetailsScreen extends React.Component {
             <Text style={styles.postTitle}>{title}</Text>
             <Text style={styles.postAuthor}>{author}</Text>
             {selftext && <HTML html={selftext} />}
-            <Divider />
             <View style={styles.secondaryInfoContainer}>
               <Text style={styles.postInfo}>{`r/${subreddit}`}</Text>
               {scoreElement}
@@ -123,7 +122,9 @@ const getStyles = theme =>
       paddingVertical: 12,
       justifyContent: "space-around",
       alignItems: "center",
-      flexDirection: "row"
+      flexDirection: "row",
+      borderTopWidth: 1,
+      borderTopColor: theme.secondaryBg
     },
     postTitle: {
       fontWeight: "bold",
