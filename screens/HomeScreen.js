@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { SearchBar, Button } from "react-native-elements";
-import withTheme from "../utils/Theme";
+import { Button } from "react-native-elements";
+import { Search } from "../components";
 import Defaults from "../constants/Defaults";
 import { connect } from "react-redux";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
@@ -13,14 +13,17 @@ import { getSubredditPosts, getNextSubredditPosts } from "../redux/Subreddit";
 
 @connectActionSheet
 class HomeScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation, screenProps }) => {
     const { params = {} } = navigation.state;
-    const accentColour = params.theme
-      ? params.theme.accent
-      : Defaults.theme.accent;
+    const { theme, handleThemeToggle } = screenProps;
 
     return {
       title: params.title ? params.title : Defaults.subreddit,
+      headerStyle: {
+        backgroundColor: theme.primary,
+        borderBottomWidth: 0
+      },
+      headerTintColor: theme.accent,
       headerLeft: (
         <Button
           type="clear"
@@ -29,11 +32,22 @@ class HomeScreen extends React.Component {
           icon={{
             name: "sort",
             size: 18,
-            color: accentColour
+            color: theme.accent
           }}
           titleStyle={{
-            color: accentColour,
+            color: theme.accent,
             fontSize: 14
+          }}
+        />
+      ),
+      headerRight: (
+        <Button
+          type="clear"
+          onPress={handleThemeToggle}
+          icon={{
+            name: "brightness-medium",
+            size: 18,
+            color: theme.accent
           }}
         />
       )
@@ -58,12 +72,11 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    const { subreddit, sort, theme } = this.props;
+    const { subreddit, sort } = this.props;
     this.props.navigation.setParams({
       title: subreddit,
       sort,
-      sortHandler: this._onOpenSortActionSheet,
-      theme
+      sortHandler: this._onOpenSortActionSheet
     });
     this._getPosts();
   }
@@ -85,18 +98,12 @@ class HomeScreen extends React.Component {
     });
   };
 
-  _renderSearchComponent = styles => {
+  _renderSearchComponent = () => {
     return (
-      <SearchBar
-        onSubmitEditing={this.handleSearch}
-        onChangeText={this.updateSearch}
+      <Search
+        onSubmit={this.handleSearch}
+        onChange={this.updateSearch}
         value={this.state.search}
-        platform="ios"
-        autoCorrect={false}
-        inputStyle={styles.searchInput}
-        inputContainerStyle={styles.searchInputContainer}
-        placeholder="Search for a subreddit..."
-        containerStyle={styles.searchContainer}
       />
     );
   };
@@ -169,10 +176,10 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    const { posts, loadingPosts, theme, subreddit } = this.props;
+    const { posts, loadingPosts, subreddit } = this.props;
     const { modalVisible } = this.state;
-    const styles = getStyles(theme);
-    const searchComponent = this._renderSearchComponent(styles);
+    const styles = getStyles();
+    const searchComponent = this._renderSearchComponent();
     const isGenericSubreddit = subreddit.match(/^(popular|all)$/) !== null;
 
     if (loadingPosts) {
@@ -195,20 +202,10 @@ class HomeScreen extends React.Component {
   }
 }
 
-const getStyles = theme =>
+const getStyles = () =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: theme.primaryBg
-    },
-    searchContainer: {
-      backgroundColor: "transparent"
-    },
-    searchInputContainer: {
-      backgroundColor: theme.secondaryBg
-    },
-    searchInput: {
-      color: theme.primaryText
+      flex: 1
     }
   });
 
@@ -236,9 +233,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withTheme(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HomeScreen)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
