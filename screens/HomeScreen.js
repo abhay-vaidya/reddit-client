@@ -64,11 +64,13 @@ class HomeScreen extends React.Component {
   };
 
   getNextPosts = () => {
-    const { subreddit, sort, loadingPosts } = this.props;
+    const { subreddit, sort, loadingPosts, loadingNextPosts } = this.props;
     const { posts } = this.props;
     const name = posts[posts.length - 1].name;
 
-    !loadingPosts && this.props._getNextSubredditPosts(subreddit, sort, name);
+    !loadingPosts &&
+      !loadingNextPosts &&
+      this.props._getNextSubredditPosts(subreddit, sort, name);
   };
 
   componentDidMount() {
@@ -210,13 +212,20 @@ const getStyles = () =>
   });
 
 const mapStateToProps = state => {
-  const { subreddit, sort, loadingPosts, posts } = state.subreddit;
+  const {
+    subreddit,
+    sort,
+    loadingPosts,
+    loadingNextPosts,
+    posts
+  } = state.subreddit;
   let newPosts = transformRawPosts(posts);
   return {
     subreddit,
     sort,
     posts: newPosts,
-    loadingPosts
+    loadingPosts,
+    loadingNextPosts
   };
 };
 

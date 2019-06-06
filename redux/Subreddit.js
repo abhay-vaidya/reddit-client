@@ -1,21 +1,21 @@
 import Defaults from "../constants/Defaults";
 
-// Constants
-export const GET_SUBREDDIT_POSTS = "reddit-client/posts/LOAD";
-export const GET_SUBREDDIT_POSTS_SUCCESS = "reddit-client/posts/LOAD_SUCCESS";
-export const GET_SUBREDDIT_POSTS_FAIL = "reddit-client/posts/LOAD_FAIL";
+// -- CONSTANTS --
+// Posts
+export const GET_POSTS = "reddit-client/posts/LOAD";
+export const GET_POSTS_SUCCESS = "reddit-client/posts/LOAD_SUCCESS";
+export const GET_POSTS_FAIL = "reddit-client/posts/LOAD_FAIL";
 
-export const GET_NEXT_SUBREDDIT_POSTS = "reddit-client/posts/LOAD_NEXT";
-export const GET_NEXT_SUBREDDIT_POSTS_SUCCESS =
-  "reddit-client/posts/LOAD_NEXT_SUCCESS";
-export const GET_NEXT_SUBREDDIT_POSTS_FAIL =
-  "reddit-client/posts/LOAD_NEXT_FAIL";
+export const GET_NEXT_POSTS = "reddit-client/posts/LOAD_NEXT";
+export const GET_NEXT_POSTS_SUCCESS = "reddit-client/posts/LOAD_NEXT_SUCCESS";
+export const GET_NEXT_POSTS_FAIL = "reddit-client/posts/LOAD_NEXT_FAIL";
 
-export const GET_POST_COMMENTS = "reddit-client/comments/LOAD";
-export const GET_POST_COMMENTS_SUCCESS = "reddit-client/comments/LOAD_SUCCESS";
-export const GET_POST_COMMENTS_FAIL = "reddit-client/comments/LOAD_FAIL";
+// Comments
+export const GET_COMMENTS = "reddit-client/comments/LOAD";
+export const GET_COMMENTS_SUCCESS = "reddit-client/comments/LOAD_SUCCESS";
+export const GET_COMMENTS_FAIL = "reddit-client/comments/LOAD_FAIL";
 
-// Reducer
+// -- REDUCER --
 export default function reducer(
   state = {
     subreddit: Defaults.subreddit,
@@ -23,49 +23,63 @@ export default function reducer(
     posts: [],
     comments: [],
     loadingPosts: false,
+    loadingNextPosts: false,
     loadingComments: false
   },
   action
 ) {
   switch (action.type) {
-    case GET_POST_COMMENTS:
-      return { ...state, loadingComments: true };
-    case GET_SUBREDDIT_POSTS:
+    case GET_POSTS:
       return {
         ...state,
         subreddit: action.subreddit,
         sort: action.sort,
-        loadingPosts: true
+        loadingPosts: true,
+        loadingNextPosts: false
       };
-    case GET_SUBREDDIT_POSTS_SUCCESS:
+    case GET_POSTS_SUCCESS:
       return {
         ...state,
         loadingPosts: false,
+        loadingNextPosts: false,
         posts: action.payload.data.data.children
       };
-    case GET_NEXT_SUBREDDIT_POSTS_SUCCESS:
+    case GET_NEXT_POSTS:
       return {
         ...state,
-        loadingComments: false,
+        loadingPosts: false,
+        loadingNextPosts: true
+      };
+    case GET_NEXT_POSTS_SUCCESS:
+      return {
+        ...state,
+        loadingPosts: false,
+        loadingNextPosts: false,
         posts: [...state.posts, ...action.payload.data.data.children]
       };
-    case GET_POST_COMMENTS_SUCCESS:
+    case GET_COMMENTS:
+      return {
+        ...state,
+        loadingComments: true
+      };
+    case GET_COMMENTS_SUCCESS:
       return {
         ...state,
         loadingComments: false,
         comments: action.payload.data[1].data.children
       };
-    case GET_POST_COMMENTS_FAIL:
-      return {
-        ...state,
-        loadingComments: false,
-        error: action.error
-      };
-    case GET_SUBREDDIT_POSTS_FAIL:
-    case GET_NEXT_SUBREDDIT_POSTS_FAIL:
+    case GET_POSTS_FAIL:
+    case GET_NEXT_POSTS_FAIL:
       return {
         ...state,
         loadingPosts: false,
+        loadingNextPosts: false,
+        error: action.error
+      };
+    case GET_COMMENTS_FAIL:
+      return {
+        ...state,
+        loadingComments: false,
         error: action.error
       };
     default:
@@ -73,10 +87,10 @@ export default function reducer(
   }
 }
 
-// Action creators
+// -- ACTION CREATORS --
 export function getSubredditPosts(subreddit, sort, timeRange) {
   return {
-    type: GET_SUBREDDIT_POSTS,
+    type: GET_POSTS,
     subreddit,
     sort,
     payload: {
@@ -89,7 +103,7 @@ export function getSubredditPosts(subreddit, sort, timeRange) {
 
 export function getNextSubredditPosts(subreddit, sort, lastPostId, timeRange) {
   return {
-    type: GET_NEXT_SUBREDDIT_POSTS,
+    type: GET_NEXT_POSTS,
     subreddit,
     sort,
     payload: {
@@ -104,10 +118,10 @@ export function getNextSubredditPosts(subreddit, sort, lastPostId, timeRange) {
 
 export function getPostComments(subreddit, postId) {
   return {
-    type: GET_POST_COMMENTS,
+    type: GET_COMMENTS,
     payload: {
       request: {
-        url: `/r/${subreddit}/comments/${postId}.json?limit=25`
+        url: `/r/${subreddit}/comments/${postId}.json?showmore=false`
       }
     }
   };
